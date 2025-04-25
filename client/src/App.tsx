@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import EnergyPieChart from "./components/EnergyGraph";
+// import EnergyPieChart from "./components/EnergyGraph";
 import GenerationByType from "./components/GenerationByType";
 
 interface EnergyPoint {
@@ -54,9 +54,11 @@ function App() {
   }, []);
 
   return (
-    <>
-      <h1>Brazil Energy Watch</h1>
-      <EnergyPieChart
+    <div className="@container/main">
+      <h1 className="flex p-10 text-5xl font-semibold tabular-nums">
+        Brazil Energy Watch
+      </h1>
+      {/* <EnergyPieChart
         hydroData={hydroData}
         nuclearData={nuclearData}
         solarData={solarData}
@@ -64,7 +66,7 @@ function App() {
         windData={windData}
         width={400}
         height={400}
-      />
+      /> */}
       <GenerationByType
         hydroData={hydroData}
         nuclearData={nuclearData}
@@ -72,7 +74,7 @@ function App() {
         thermalData={thermalData}
         windData={windData}
       />
-    </>
+    </div>
   );
 }
 

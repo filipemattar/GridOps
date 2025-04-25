@@ -1,12 +1,9 @@
-import { TrendingDownIcon, TrendingUpIcon } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { MetricCard } from "./MetricCard";
+import NuclearIcon from "@/assets/energy-icons/radiation.png";
+import HydroIcon from "@/assets/energy-icons/hydro-power.png";
+import SolarIcon from "@/assets/energy-icons/solar-panel.png";
+import ThermalIcon from "@/assets/energy-icons/energy-source.png";
+import WindIcon from "@/assets/energy-icons/wind-turbine.png";
 
 interface EnergyPoint {
   instante: string;
@@ -51,141 +48,58 @@ function GenerationByType({
     return hydro + nuclear + solar + thermal + wind;
   }
 
-  // function getTotalinThisMinute(): number {
-  //   return hydroNow + nuclearNow + solarNow + thermalNow + windNow;
-  // }
+  function getTotalinThisMinute(): number {
+    return hydroNow + nuclearNow + solarNow + thermalNow + windNow;
+  }
 
   return (
-    <div className="data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4 grid grid-cols-1 gap-4 px-4 data-[slot=card]:bg-gradient-to-t data-[slot=card]:from-primary/5 data-[slot=card]:to-card dark:data-[slot=card]:bg-card lg:px-6">
-      <Card className="@container/card">
-        <CardHeader className="relative">
-          <CardDescription>Daily Total Generation</CardDescription>
-          <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-            {(getTotalEnergyGeneration() / 1000).toFixed(2)} GW
-          </CardTitle>
-          <div className="absolute right-4 top-4">
-            <Badge variant="outline" className="flex gap-1 rounded-lg text-xs">
-              <TrendingUpIcon className="size-3" />
-              +12.5%
-            </Badge>
-          </div>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month <TrendingUpIcon className="size-4" />
-          </div>
-          {/* <div className="text-muted-foreground">
-            Visitors for the last 6 months
-          </div> */}
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader className="relative">
-          <CardDescription>Hydropower</CardDescription>
-          <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-            {hydroNow?.toFixed(2)}
-            MW
-          </CardTitle>
-          <div className="absolute right-4 top-4">
-            <Badge variant="outline" className="flex gap-1 rounded-lg text-xs">
-              <TrendingUpIcon className="size-3" />
-              +12.5%
-            </Badge>
-          </div>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month <TrendingUpIcon className="size-4" />
-          </div>
-          {/* <div className="text-muted-foreground">
-            Visitors for the last 6 months
-          </div> */}
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader className="relative">
-          <CardDescription>Nuclear Power</CardDescription>
-          <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-            {nuclearNow?.toFixed(2)}
-            MW
-          </CardTitle>
-          <div className="absolute right-4 top-4">
-            <Badge variant="outline" className="flex gap-1 rounded-lg text-xs">
-              <TrendingDownIcon className="size-3" />
-              -20%
-            </Badge>
-          </div>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period <TrendingDownIcon className="size-4" />
-          </div>
-          {/* <div className="text-muted-foreground">
-            Acquisition needs attention
-          </div> */}
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader className="relative">
-          <CardDescription>Solar Power</CardDescription>
-          <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-            {solarNow?.toFixed(2)}
-            MW
-          </CardTitle>
-          <div className="absolute right-4 top-4">
-            <Badge variant="outline" className="flex gap-1 rounded-lg text-xs">
-              <TrendingUpIcon className="size-3" />
-              +12.5%
-            </Badge>
-          </div>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention <TrendingUpIcon className="size-4" />
-          </div>
-          {/* <div className="text-muted-foreground">Engagement exceed targets</div> */}
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader className="relative">
-          <CardDescription>Thermal Power</CardDescription>
-          <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-            {thermalNow?.toFixed(2)} MW
-          </CardTitle>
-          <div className="absolute right-4 top-4">
-            <Badge variant="outline" className="flex gap-1 rounded-lg text-xs">
-              <TrendingUpIcon className="size-3" />
-              +4.5%
-            </Badge>
-          </div>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance <TrendingUpIcon className="size-4" />
-          </div>
-          <div className="text-muted-foreground">Meets growth projections</div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader className="relative">
-          <CardDescription>Wind Power</CardDescription>
-          <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-            {windNow?.toFixed(2)} MW
-          </CardTitle>
-          <div className="absolute right-4 top-4">
-            <Badge variant="outline" className="flex gap-1 rounded-lg text-xs">
-              <TrendingUpIcon className="size-3" />
-              +4.5%
-            </Badge>
-          </div>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance <TrendingUpIcon className="size-4" />
-          </div>
-          <div className="text-muted-foreground">Meets growth projections</div>
-        </CardFooter>
-      </Card>
+    <div className="w-full *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-5 grid grid-cols-1 gap-4 px-4 data-[slot=card]:bg-gradient-to-t data-[slot=card]:from-primary/5 data-[slot=card]:to-card dark:data-[slot=card]:bg-card lg:px-6">
+      <MetricCard
+        className="col-span-5 text-center"
+        title="Daily Total Generation"
+        metric="GW"
+        value={getTotalEnergyGeneration()}
+      />
+      <MetricCard
+        className="bg-blue-400"
+        icon={HydroIcon}
+        title="Hydropower"
+        metric="GW"
+        value={hydroNow}
+        percentage={(hydroNow / getTotalinThisMinute()) * 100}
+      />
+      <MetricCard
+        className="bg-green-400"
+        title="Nuclear Power"
+        icon={NuclearIcon}
+        metric="GW"
+        value={nuclearNow}
+        percentage={(nuclearNow / getTotalinThisMinute()) * 100}
+      />
+      <MetricCard
+        className="bg-amber-300"
+        title="Solar Power"
+        icon={SolarIcon}
+        metric="GW"
+        value={solarNow}
+        percentage={(solarNow / getTotalinThisMinute()) * 100}
+      />
+      <MetricCard
+        className="bg-gray-400"
+        title="Thermal Power"
+        icon={ThermalIcon}
+        metric="GW"
+        value={thermalNow}
+        percentage={(thermalNow / getTotalinThisMinute()) * 100}
+      />
+      <MetricCard
+        className="bg-blue-300"
+        title=" Wind Power"
+        icon={WindIcon}
+        metric="GW"
+        value={windNow}
+        percentage={(windNow / getTotalinThisMinute()) * 100}
+      />
     </div>
   );
 }
