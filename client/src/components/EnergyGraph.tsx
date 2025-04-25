@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import Pie from "@visx/shape/lib/shapes/Pie";
 import { Group } from "@visx/group";
-import { Bar } from "@visx/shape";
-import { scaleBand, scaleLinear } from "@visx/scale";
-import { AxisBottom, AxisLeft } from "@visx/axis";
-import { format } from "date-fns";
+// import { LinearGradient } from "@visx/gradient";
+// import { animated, useTransition, interpolate } from "@react-spring/web";
+// import Pie, { ProvidedProps, PieArcDatum } from "@visx/shape/lib/shapes/Pie";
+// import { scaleOrdinal } from "@visx/scale";
 
 interface EnergyPoint {
   instante: string;
@@ -11,65 +11,88 @@ interface EnergyPoint {
 }
 
 interface EnergyChartProps {
-  type: "hydro" | "nuclear" | "solar" | "thermal" | "wind";
+  hydroData: EnergyPoint[];
+  nuclearData: EnergyPoint[];
+  solarData: EnergyPoint[];
+  thermalData: EnergyPoint[];
+  windData: EnergyPoint[];
   width: number;
   height: number;
 }
 
-function EnergyChart(props: EnergyChartProps) {
-  const { type, width, height } = props;
-  const [data, setData] = useState<EnergyPoint[]>([]);
+function EnergyPieChart({
+  hydroData,
+  nuclearData,
+  solarData,
+  thermalData,
+  windData,
+  width,
+  height,
+}: EnergyChartProps) {
+  const hydroNow = hydroData[hydroData.length - 1]?.geracao;
+  const nuclearNow = nuclearData[nuclearData.length - 1]?.geracao;
+  const solarNow = solarData[solarData.length - 1]?.geracao;
+  const thermalNow = thermalData[thermalData.length - 1]?.geracao;
+  const windNow = windData[windData.length - 1]?.geracao;
 
-  useEffect(() => {
-    async function fetchData() {
-      const res = await fetch(`http://localhost:3000/energy/${type}`);
-      const json = await res.json();
-      setData(json.slice(0, 30));
-    }
+  //funcao para fazer o pie chart
+  function getTotalinThisMinute(): number {
+    return hydroNow + nuclearNow + solarNow + thermalNow + windNow;
+  }
 
-    fetchData();
-  }, [type]);
-
-  const xMax = width;
-  const yMax = height - 40;
-
-  const xScale = scaleBand<string>({
-    domain: data.map((d) => format(new Date(d.instante), "HH:mm")),
-    padding: 0.4,
-    range: [0, xMax],
-  });
-
-  const yScale = scaleLinear<number>({
-    domain: [0, Math.max(...data.map((d) => d.geracao))],
-    nice: true,
-    range: [yMax, 0],
-  });
+  const radius = Math.min(width, height) / 2;
 
   return (
     <svg width={width} height={height}>
-      <Group top={20} left={40}>
-        {data.map((d, i) => {
-          const x = xScale(format(new Date(d.instante), "HH:mm"));
-          const y = yScale(d.geracao);
-          const barHeight = yMax - (y ?? 0);
+      <Group top={height / 2} left={width / 2}>
+        <Pie
+          data={[
+            { label: "Hydro", value: hydroNow },
+            { label: "Nuclear", value: nuclearNow },
+            { label: "Solar", value: solarNow },
+            { label: "Thermo", value: thermalNow },
+            { label: "Wind", value: windNow },
+          ]}
+          pieValue={(d) => d.value}
+          outerRadius={radius}
+          padAngle={0.01}
+        >
+          {(pie) =>
+            pie.arcs.map((arc, i) => {
+              const { label, value } = arc.data;
+              const [centroidX, centroidY] = pie.path.centroid(arc);
+              const arcPath = pie.path(arc);
+              const color = [
+                "#4f46e5",
+                "#f59e0b",
+                "#10b981",
+                "#ef4444",
+                "#06b6d4",
+              ][i];
 
-          return (
-            <Bar
-              key={i}
-              x={x}
-              y={y}
-              width={xScale.bandwidth()}
-              height={barHeight}
-              fill="#4f46e5"
-              rx={4}
-            />
-          );
-        })}
-
-        <AxisLeft scale={yScale} />
-        <AxisBottom top={yMax} scale={xScale} />
+              return (
+                <g key={`arc-${label}`}>
+                  <path d={arcPath!} fill={color} />
+                  <text
+                    x={centroidX}
+                    y={centroidY}
+                    dy=".33em"
+                    fill="white"
+                    fontSize={10}
+                    textAnchor="middle"
+                  >
+                    {`${label} (${Math.round(
+                      (value / getTotalinThisMinute()) * 100
+                    )}%)`}
+                  </text>
+                </g>
+              );
+            })
+          }
+        </Pie>
       </Group>
     </svg>
   );
 }
-export default EnergyChart;
+
+export default EnergyPieChart;

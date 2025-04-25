@@ -2,7 +2,8 @@ import express, { Express } from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import energyRoutes from './energy.routes'
+// import energyRoutes from './energy.routes'
+import EnergyController from './controllers/energy.controller'
 
 dotenv.config()
 
@@ -12,7 +13,11 @@ app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
 
-app.use('/energy', energyRoutes)
+app.get('/energy/hydro', EnergyController.getHydroGeneration)
+app.get('/energy/nuclear', EnergyController.getNuclearGeneration)
+app.get('/energy/solar', EnergyController.getSolarGeneration)
+app.get('/energy/thermal', EnergyController.getThermalGeneration)
+app.get('/energy/wind', EnergyController.getWindGeneration)
 
 const port = process.env.PORT
 
