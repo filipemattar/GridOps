@@ -6,6 +6,8 @@ interface MetricCardProps extends React.ComponentProps<"div"> {
   metric?: string;
   percentage?: number;
   title: string;
+  subtitle?: string;
+  subvalue?: number;
   icon?: string;
 }
 
@@ -14,6 +16,8 @@ export function MetricCard({
   metric,
   percentage,
   title,
+  subtitle,
+  subvalue,
   icon,
   className,
 }: MetricCardProps) {
@@ -43,6 +47,14 @@ export function MetricCard({
       ) : (
         ""
       )}
+      {/* {subtitle ? (
+        <CardContent className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
+          <span>{subtitle}</span>
+          {(subvalue / 1000)?.toFixed(2)} {metric || "GW"}
+        </CardContent>
+      ) : (
+        ""
+      )} */}
       <CardFooter className="flex-col items-start gap-1 text-sm"></CardFooter>
     </Card>
   );

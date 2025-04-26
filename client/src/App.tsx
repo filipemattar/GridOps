@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import "./App.css";
 // import EnergyPieChart from "./components/EnergyGraph";
 import GenerationByType from "./components/GenerationByType";
+import { LineChart } from "./components/LineChart";
+import BrazilMap from "./components/MapComponent";
 
 interface EnergyPoint {
   instante: string;
@@ -54,20 +56,19 @@ function App() {
   }, []);
 
   return (
-    <div className="@container/main">
+    <div className="@container/main flex flex-col gap-10">
       <h1 className="flex p-10 text-5xl font-semibold tabular-nums">
         Brazil Energy Watch
       </h1>
-      {/* <EnergyPieChart
+      <BrazilMap />
+      <GenerationByType
         hydroData={hydroData}
         nuclearData={nuclearData}
         solarData={solarData}
         thermalData={thermalData}
         windData={windData}
-        width={400}
-        height={400}
-      /> */}
-      <GenerationByType
+      />
+      <LineChart
         hydroData={hydroData}
         nuclearData={nuclearData}
         solarData={solarData}

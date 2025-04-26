@@ -58,7 +58,9 @@ function GenerationByType({
         className="col-span-5 text-center"
         title="Daily Total Generation"
         metric="GW"
-        value={getTotalEnergyGeneration()}
+        subtitle="Daily"
+        subvalue={getTotalEnergyGeneration()}
+        value={getTotalinThisMinute()}
       />
       <MetricCard
         className="bg-blue-400"

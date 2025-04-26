@@ -18,6 +18,7 @@ app.get('/energy/nuclear', EnergyController.getNuclearGeneration)
 app.get('/energy/solar', EnergyController.getSolarGeneration)
 app.get('/energy/thermal', EnergyController.getThermalGeneration)
 app.get('/energy/wind', EnergyController.getWindGeneration)
+// app.get('/energy/all', EnergyController.getAllGeneration) //rota para salvar todas as fontes juntas
 
 const port = process.env.PORT
 
