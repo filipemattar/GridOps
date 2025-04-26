@@ -1,40 +1,7 @@
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import * as turf from "@turf/turf";
-// import { useNavigate } from "react-router-dom"
-const regions = {
-  Norte: [
-    "Acre",
-    "Amapá",
-    "Amazonas",
-    "Pará",
-    "Rondônia",
-    "Roraima",
-    "Tocantins",
-  ],
-  Nordeste: [
-    "Alagoas",
-    "Bahia",
-    "Ceará",
-    "Maranhão",
-    "Paraíba",
-    "Pernambuco",
-    "Piauí",
-    "Rio Grande do Norte",
-    "Sergipe",
-  ],
-  "Centro-Oeste e Sudeste": [
-    "Distrito Federal",
-    "Goiás",
-    "Mato Grosso",
-    "Mato Grosso do Sul",
-    "Espírito Santo",
-    "Minas Gerais",
-    "Rio de Janeiro",
-    "São Paulo",
-  ],
-  Sul: ["Paraná", "Rio Grande do Sul", "Santa Catarina"],
-};
+import brazilRegions from "@/assets/brazil_regions_merged.json";
 
+// Cores para cada região
 const regionColors: Record<string, string> = {
   Norte: "#4caf50",
   Nordeste: "#ff9800",
@@ -42,37 +9,34 @@ const regionColors: Record<string, string> = {
   Sul: "#9c27b0",
 };
 
-export default function BrazilMap() {
-  //   const navigate = useNavigate();
-
-  //   const handleClick = (geo: any) => {
-  //     const region = geo.properties.name; // nome do estado
-  //     console.log(region);
-  //     navigate(`/region/${region}`); // leva para a página da região
-  //   };
-
+export default function MapChart() {
   return (
     <ComposableMap
+      projection="geoMercator"
       width={800}
       height={600}
-      projection="geoMercator"
       projectionConfig={{
         scale: 800,
         center: [-45, -15],
       }}
     >
-      <Geographies geography="/brazil.json">
+      <Geographies geography={brazilRegions}>
         {({ geographies }) =>
           geographies.map((geo) => {
+            const regionName = geo.properties?.region;
+            const fillColor = regionColors[regionName] || "#ccc";
+
             return (
               <Geography
                 key={geo.rsmKey}
                 geography={geo}
-                onClick={() => handleClick(geo)}
+                fill={fillColor}
+                stroke="#FFF"
+                strokeWidth={0.5}
                 style={{
-                  default: { fill: "#D6D6DA", outline: "none" },
-                  hover: { fill: "#F53", outline: "none" },
-                  pressed: { fill: "#E42", outline: "none" },
+                  default: { outline: "none" },
+                  hover: { fill: "#ff5722", outline: "none" },
+                  pressed: { fill: "#e65100", outline: "none" },
                 }}
               />
             );

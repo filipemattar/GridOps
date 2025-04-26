@@ -12,7 +12,9 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.0",
     "@tailwindcss/vite": "^4.1.4",
+    "@turf/helpers": "^7.2.0",
     "@turf/turf": "^7.2.0",
+    "@types/geojson": "^7946.0.16",
     "@visx/visx": "^3.12.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
