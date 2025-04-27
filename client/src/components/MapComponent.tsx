@@ -1,15 +1,11 @@
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import brazilRegions from "@/assets/brazil_regions_merged.json";
 
-// Cores para cada região
-const regionColors: Record<string, string> = {
-  Norte: "#4caf50",
-  Nordeste: "#ff9800",
-  "Centro-Oeste e Sudeste": "#2196f3",
-  Sul: "#9c27b0",
-};
-
-export default function MapChart() {
+export default function MapChart({
+  onRegionClick,
+}: {
+  onRegionClick: (regionName: string) => void;
+}) {
   return (
     <ComposableMap
       projection="geoMercator"
@@ -24,19 +20,20 @@ export default function MapChart() {
         {({ geographies }) =>
           geographies.map((geo) => {
             const regionName = geo.properties?.region;
-            const fillColor = regionColors[regionName] || "#ccc";
-
             return (
               <Geography
                 key={geo.rsmKey}
                 geography={geo}
-                fill={fillColor}
+                onClick={() => onRegionClick(regionName)}
                 stroke="#FFF"
                 strokeWidth={0.5}
                 style={{
-                  default: { outline: "none" },
-                  hover: { fill: "#ff5722", outline: "none" },
-                  pressed: { fill: "#e65100", outline: "none" },
+                  default: { fill: "#D6D6DA", outline: "none" },
+                  hover: {
+                    fill: "#4a8500",
+                    outline: "none",
+                  },
+                  pressed: { fill: "#4a8500", outline: "none" },
                 }}
               />
             );
