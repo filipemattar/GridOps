@@ -12,7 +12,7 @@ export default function MapChart({
       width={800}
       height={600}
       projectionConfig={{
-        scale: 800,
+        scale: 750,
         center: [-45, -15],
       }}
     >

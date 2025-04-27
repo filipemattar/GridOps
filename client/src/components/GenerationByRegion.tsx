@@ -1,4 +1,4 @@
-import RegionCard from "./RegionCard";
+import { RegionCard } from "./RegionCard";
 import NuclearIcon from "@/assets/energy-icons/radiation.png";
 import HydroIcon from "@/assets/energy-icons/hydro-power.png";
 import SolarIcon from "@/assets/energy-icons/solar-panel.png";

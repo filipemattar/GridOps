@@ -78,31 +78,31 @@ async function loadData() {
 
     southHydro = JSON.parse(
       await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/mockHydroEnergyData.json',
+        '/Users/filipemattar/Developer/solo-project/server/src/database/South/mockSouthHydro.json',
         'utf-8'
       )
     )
     southNuclear = JSON.parse(
       await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/mockNuclearEnergyData.json',
+        '/Users/filipemattar/Developer/solo-project/server/src/database/South/mockSouthNuclear.json',
         'utf-8'
       )
     )
     southSolar = JSON.parse(
       await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/mockSolarEnergyData.json',
+        '/Users/filipemattar/Developer/solo-project/server/src/database/South/mockSouthSolar.json',
         'utf-8'
       )
     )
     southThermal = JSON.parse(
       await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/mockThermalEnergyData.json',
+        '/Users/filipemattar/Developer/solo-project/server/src/database/South/mockSouthThermal.json',
         'utf-8'
       )
     )
     southWind = JSON.parse(
       await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/mockWindEnergyData.json',
+        '/Users/filipemattar/Developer/solo-project/server/src/database/South/mockSouthWind.json',
         'utf-8'
       )
     )
@@ -111,31 +111,31 @@ async function loadData() {
 
     northeastHydro = JSON.parse(
       await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/mockHydroEnergyData.json',
+        '/Users/filipemattar/Developer/solo-project/server/src/database/Northeast/mockNortheastHydro.json',
         'utf-8'
       )
     )
     northeastNuclear = JSON.parse(
       await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/mockNuclearEnergyData.json',
+        '/Users/filipemattar/Developer/solo-project/server/src/database/Northeast/mockNortheastNuclear.json',
         'utf-8'
       )
     )
     northeastSolar = JSON.parse(
       await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/mockSolarEnergyData.json',
+        '/Users/filipemattar/Developer/solo-project/server/src/database/Northeast/mockNortheastSolar.json',
         'utf-8'
       )
     )
     northeastThermal = JSON.parse(
       await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/mockThermalEnergyData.json',
+        '/Users/filipemattar/Developer/solo-project/server/src/database/Northeast/mockNortheastThermal.json',
         'utf-8'
       )
     )
     northeastWind = JSON.parse(
       await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/mockWindEnergyData.json',
+        '/Users/filipemattar/Developer/solo-project/server/src/database/Northeast/mockNortheastWind.json',
         'utf-8'
       )
     )
@@ -144,31 +144,31 @@ async function loadData() {
 
     cosuHydro = JSON.parse(
       await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/mockHydroEnergyData.json',
+        '/Users/filipemattar/Developer/solo-project/server/src/database/COSU/mockCosuHydro.json',
         'utf-8'
       )
     )
     cosuNuclear = JSON.parse(
       await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/mockNuclearEnergyData.json',
+        '/Users/filipemattar/Developer/solo-project/server/src/database/COSU/mockCosuNuclear.json',
         'utf-8'
       )
     )
     cosuSolar = JSON.parse(
       await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/mockSolarEnergyData.json',
+        '/Users/filipemattar/Developer/solo-project/server/src/database/COSU/mockCosuSolar.json',
         'utf-8'
       )
     )
     cosuThermal = JSON.parse(
       await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/mockThermalEnergyData.json',
+        '/Users/filipemattar/Developer/solo-project/server/src/database/COSU/mockCosuThermal.json',
         'utf-8'
       )
     )
     cosuWind = JSON.parse(
       await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/mockWindEnergyData.json',
+        '/Users/filipemattar/Developer/solo-project/server/src/database/COSU/mockCosuWind.json',
         'utf-8'
       )
     )
