@@ -14,66 +14,75 @@ app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
 
-app.get('/energy/hydro', EnergyController.getHydroGeneration)
-app.get('/energy/nuclear', EnergyController.getNuclearGeneration)
-app.get('/energy/solar', EnergyController.getSolarGeneration)
-app.get('/energy/thermal', EnergyController.getThermalGeneration)
-app.get('/energy/wind', EnergyController.getWindGeneration)
+app.get('/energy/SIN/hydro', EnergyController.getHydroGeneration)
+app.get('/energy/SIN/nuclear', EnergyController.getNuclearGeneration)
+app.get('/energy/SIN/solar', EnergyController.getSolarGeneration)
+app.get('/energy/SIN/thermal', EnergyController.getThermalGeneration)
+app.get('/energy/SIN/wind', EnergyController.getWindGeneration)
 
 //NorthRegion
-app.get('/energy/north/hydro', RegionEnergyController.getNorthHydroGeneration)
+app.get('/energy/Norte/hydro', RegionEnergyController.getNorthHydroGeneration)
 app.get(
-  '/energy/north/nuclear',
+  '/energy/Norte/nuclear',
   RegionEnergyController.getNorthNuclearGeneration
 )
-app.get('/energy/north/solar', RegionEnergyController.getNorthSolarGeneration)
+app.get('/energy/Norte/solar', RegionEnergyController.getNorthSolarGeneration)
 app.get(
-  '/energy/north/thermal',
+  '/energy/Norte/thermal',
   RegionEnergyController.getNorthThermalGeneration
 )
-app.get('/energy/north/wind', RegionEnergyController.getNorthWindGeneration)
+app.get('/energy/Norte/wind', RegionEnergyController.getNorthWindGeneration)
 
 //southRegion
-app.get('/energy/south/hydro', RegionEnergyController.getSouthHydroGeneration)
-app.get(
-  '/energy/south/nuclear',
-  RegionEnergyController.getSouthNuclearGeneration
-)
-app.get('/energy/south/solar', RegionEnergyController.getSouthSolarGeneration)
-app.get(
-  '/energy/south/thermal',
-  RegionEnergyController.getSouthThermalGeneration
-)
-app.get('/energysouth//wind', RegionEnergyController.getSouthWindGeneration)
+app.get('/energy/Sul/hydro', RegionEnergyController.getSouthHydroGeneration)
+app.get('/energy/Sul/nuclear', RegionEnergyController.getSouthNuclearGeneration)
+app.get('/energy/Sul/solar', RegionEnergyController.getSouthSolarGeneration)
+app.get('/energy/Sul/thermal', RegionEnergyController.getSouthThermalGeneration)
+app.get('/energy/Sul/wind', RegionEnergyController.getSouthWindGeneration)
 
 //Northeast
 app.get(
-  '/energy/northeast/hydro',
+  '/energy/Nordeste/hydro',
   RegionEnergyController.getNortheastHydroGeneration
 )
 app.get(
-  '/energy/northeast/nuclear',
+  '/energy/Nordest/nuclear',
   RegionEnergyController.getNortheastNuclearGeneration
 )
 app.get(
-  '/energy/northeast/solar',
+  '/energy/Nordeste/solar',
   RegionEnergyController.getNortheastSolarGeneration
 )
 app.get(
-  '/energy/northeast/thermal',
+  '/energy/Nordeste/thermal',
   RegionEnergyController.getNortheastThermalGeneration
 )
 app.get(
-  '/energy/northeast/wind',
+  '/energy/Nordeste/wind',
   RegionEnergyController.getNortheastWindGeneration
 )
 
 //COSU
-app.get('/energy/cosu/hydro', RegionEnergyController.getCosuHydroGeneration)
-app.get('/energy/cosu/nuclear', RegionEnergyController.getCosuNuclearGeneration)
-app.get('/energy/cosu/solar', RegionEnergyController.getCosuSolarGeneration)
-app.get('/energy/cosu/thermal', RegionEnergyController.getCosuThermalGeneration)
-app.get('/energy/cosu/wind', RegionEnergyController.getCosuWindGeneration)
+app.get(
+  '/energy/Centro-OesteeSudeste/hydro',
+  RegionEnergyController.getCosuHydroGeneration
+)
+app.get(
+  '/energy/Centro-OesteeSudeste/nuclear',
+  RegionEnergyController.getCosuNuclearGeneration
+)
+app.get(
+  '/energy/Centro-OesteeSudeste/solar',
+  RegionEnergyController.getCosuSolarGeneration
+)
+app.get(
+  '/energy/Centro-OesteeSudeste/thermal',
+  RegionEnergyController.getCosuThermalGeneration
+)
+app.get(
+  '/energy/Centro-OesteeSudeste/wind',
+  RegionEnergyController.getCosuWindGeneration
+)
 
 // app.get('/energy/all', EnergyController.getAllGeneration) //rota para salvar todas as fontes juntas
 

@@ -109,7 +109,8 @@ const RegionEnergyController = {
 
   async getNortheastHydroGeneration(_: Request, res: Response) {
     try {
-      const data: EnergyData[] = await EnergyRegionRepository.getSouthHydro()
+      const data: EnergyData[] =
+        await EnergyRegionRepository.getNortheastHydro()
       res.status(200).json(data)
     } catch (err) {
       res

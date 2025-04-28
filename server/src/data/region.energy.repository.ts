@@ -74,39 +74,6 @@ async function loadData() {
       )
     )
 
-    // _______________________________________________SOUTH___________________________________________
-
-    southHydro = JSON.parse(
-      await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/South/mockSouthHydro.json',
-        'utf-8'
-      )
-    )
-    southNuclear = JSON.parse(
-      await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/South/mockSouthNuclear.json',
-        'utf-8'
-      )
-    )
-    southSolar = JSON.parse(
-      await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/South/mockSouthSolar.json',
-        'utf-8'
-      )
-    )
-    southThermal = JSON.parse(
-      await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/South/mockSouthThermal.json',
-        'utf-8'
-      )
-    )
-    southWind = JSON.parse(
-      await fs.readFile(
-        '/Users/filipemattar/Developer/solo-project/server/src/database/South/mockSouthWind.json',
-        'utf-8'
-      )
-    )
-
     //________________________________________NORTHEAST_______________________________________________
 
     northeastHydro = JSON.parse(
@@ -172,6 +139,38 @@ async function loadData() {
         'utf-8'
       )
     )
+    // _______________________________________________SOUTH___________________________________________
+
+    southHydro = JSON.parse(
+      await fs.readFile(
+        '/Users/filipemattar/Developer/solo-project/server/src/database/South/mockSouthHydro.json',
+        'utf-8'
+      )
+    )
+    southNuclear = JSON.parse(
+      await fs.readFile(
+        '/Users/filipemattar/Developer/solo-project/server/src/database/South/mockSouthNuclear.json',
+        'utf-8'
+      )
+    )
+    southSolar = JSON.parse(
+      await fs.readFile(
+        '/Users/filipemattar/Developer/solo-project/server/src/database/South/mockSouthSolar.json',
+        'utf-8'
+      )
+    )
+    southThermal = JSON.parse(
+      await fs.readFile(
+        '/Users/filipemattar/Developer/solo-project/server/src/database/South/mockSouthThermal.json',
+        'utf-8'
+      )
+    )
+    southWind = JSON.parse(
+      await fs.readFile(
+        '/Users/filipemattar/Developer/solo-project/server/src/database/South/mockSouthWind.json',
+        'utf-8'
+      )
+    )
   } catch (error) {
     console.error('Error loading data:', error)
   }
@@ -187,6 +186,7 @@ const EnergyRegionRepository = {
     return northNuclear
   },
   async getNorthSolar(): Promise<EnergyData[]> {
+    console.log(northSolar)
     return northSolar
   },
   async getNorthThermal(): Promise<EnergyData[]> {

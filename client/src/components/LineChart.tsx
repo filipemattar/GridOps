@@ -14,18 +14,15 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { useEnergyData } from "@/hooks/useEnergyData";
+
+interface GenerationByRegionProps {
+  region: string;
+}
 
 interface EnergyPoint {
   instante: string;
   geracao?: number;
-}
-
-interface EnergyCardProps {
-  hydroData: EnergyPoint[];
-  nuclearData: EnergyPoint[];
-  solarData: EnergyPoint[];
-  thermalData: EnergyPoint[];
-  windData: EnergyPoint[];
 }
 
 interface ChartDataPoint {
@@ -60,74 +57,72 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-function buildChartData({
-  hydroData,
-  nuclearData,
-  solarData,
-  thermalData,
-  windData,
-}: EnergyCardProps) {
-  const dataMap = new Map<string, ChartDataPoint>();
+export function LineChart({ region }: GenerationByRegionProps) {
+  const { hydroData, nuclearData, solarData, thermalData, windData } =
+    useEnergyData(region);
 
-  function addData(
-    sourceData: EnergyPoint[],
-    sourceName: keyof ChartDataPoint
-  ) {
-    for (const item of sourceData) {
-      if (!dataMap.has(item.instante)) {
-        dataMap.set(item.instante, { instante: item.instante });
+  function buildChartData() {
+    const dataMap = new Map<string, ChartDataPoint>();
+
+    function addData(
+      sourceData: EnergyPoint[],
+      sourceName: keyof ChartDataPoint
+    ) {
+      for (const item of sourceData) {
+        if (!dataMap.has(item.instante)) {
+          dataMap.set(item.instante, { instante: item.instante });
+        }
+        const dataPoint = dataMap.get(item.instante)!;
+        (dataPoint[sourceName] as number) = item.geracao ?? 0;
       }
-      const dataPoint = dataMap.get(item.instante)!;
-      (dataPoint[sourceName] as number) = item.geracao ?? 0;
     }
+
+    addData(hydroData, "hydro");
+    addData(nuclearData, "nuclear");
+    addData(solarData, "solar");
+    addData(thermalData, "thermal");
+    addData(windData, "wind");
+
+    const chartData = Array.from(dataMap.values());
+
+    return chartData;
   }
 
-  addData(hydroData, "hydro");
-  addData(nuclearData, "nuclear");
-  addData(solarData, "solar");
-  addData(thermalData, "thermal");
-  addData(windData, "wind");
+  function formatDateXaxis(instante: string): string {
+    const date = toZonedTime(new Date(instante), "America/Sao_Paulo");
 
-  const chartData = Array.from(dataMap.values());
+    return format(date, "HH:mm", { timeZone: "America/Sao_Paulo" });
+  }
 
-  return chartData;
-}
+  function formatMonth(instante: string): string {
+    const timeZone = "America/Sao_Paulo";
+    const date = toZonedTime(new Date(instante), timeZone);
 
-function formatDateXaxis(instante: string): string {
-  const date = toZonedTime(new Date(instante), "America/Sao_Paulo");
+    const day = format(date, "d", { timeZone });
+    const month = format(date, "MMMM", { timeZone });
 
-  return format(date, "HH:mm", { timeZone: "America/Sao_Paulo" });
-}
+    const getDaySuffix = (day: number) => {
+      if (day >= 11 && day <= 13) return "th";
+      switch (day % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
 
-function formatMonth(instante: string): string {
-  const timeZone = "America/Sao_Paulo";
-  const date = toZonedTime(new Date(instante), timeZone);
+    const dayNumber = parseInt(day, 10);
+    const suffix = getDaySuffix(dayNumber);
 
-  const day = format(date, "d", { timeZone });
-  const month = format(date, "MMMM", { timeZone });
+    return `${month} ${day}${suffix}`;
+  }
 
-  const getDaySuffix = (day: number) => {
-    if (day >= 11 && day <= 13) return "th";
-    switch (day % 10) {
-      case 1:
-        return "st";
-      case 2:
-        return "nd";
-      case 3:
-        return "rd";
-      default:
-        return "th";
-    }
-  };
-
-  const dayNumber = parseInt(day, 10);
-  const suffix = getDaySuffix(dayNumber);
-
-  return `${month} ${day}${suffix}`;
-}
-
-export function LineChart(props: EnergyCardProps) {
-  const chartData = buildChartData(props);
+  const chartData = buildChartData();
+  console.log(chartData.length / 10);
 
   return (
     <div>
@@ -155,7 +150,7 @@ export function LineChart(props: EnergyCardProps) {
                 axisLine={true}
                 tickMargin={8}
                 tickFormatter={formatDateXaxis}
-                interval={20}
+                interval={60}
               />
               <YAxis
                 tickLine={true}

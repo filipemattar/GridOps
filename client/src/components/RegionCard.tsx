@@ -1,10 +1,5 @@
-import {
-  Card,
-  CardFooter,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 interface RegionEnergyCardProps extends React.ComponentProps<"div"> {
   value: number;
@@ -13,30 +8,35 @@ interface RegionEnergyCardProps extends React.ComponentProps<"div"> {
   title: string;
   icon?: string;
   region: string;
+  bgColor?: string;
 }
 
-export default function RegionCard(
+export default function RegionCard({
   value,
   metric,
   percentage,
   title,
   icon,
-  region,
-  className
-): RegionEnergyCardProps {
+  bgColor,
+}: RegionEnergyCardProps) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-center">{region}</CardTitle>
+    <Card className={cn(bgColor, "w-[180px] h-[200px]")}>
+      <CardHeader className="relative flex items-center space-x-2">
+        {icon && (
+          <img
+            src={icon}
+            alt=""
+            className="block w-[40px] h-[40px] object-cover rounded-md"
+          />
+        )}
+        <span>{title}</span>
       </CardHeader>
-      <CardContent className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-        <img src={icon} className="w-[50px] h-[50px] object-cover rounded-md" />
+      <CardContent className="card:text-2xl text-2xl font-semibold tabular-nums">
         {(value / 1000)?.toFixed(2)} {metric || "GW"}
       </CardContent>
       <CardContent className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
         {percentage?.toFixed(2)} %
       </CardContent>
-      <CardFooter className="flex-col items-start gap-1 text-sm"></CardFooter>
     </Card>
   );
 }

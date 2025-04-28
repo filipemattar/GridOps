@@ -4,27 +4,16 @@ import HydroIcon from "@/assets/energy-icons/hydro-power.png";
 import SolarIcon from "@/assets/energy-icons/solar-panel.png";
 import ThermalIcon from "@/assets/energy-icons/energy-source.png";
 import WindIcon from "@/assets/energy-icons/wind-turbine.png";
+import { useEnergyData } from "@/hooks/useEnergyData";
 
-interface EnergyPoint {
-  instante: string;
-  geracao: number;
+interface GenerationByRegionProps {
+  region: string;
 }
 
-interface EnergyCardProps {
-  hydroData: EnergyPoint[];
-  nuclearData: EnergyPoint[];
-  solarData: EnergyPoint[];
-  thermalData: EnergyPoint[];
-  windData: EnergyPoint[];
-}
+function GenerationByType({ region }: GenerationByRegionProps) {
+  const { hydroData, nuclearData, solarData, thermalData, windData } =
+    useEnergyData(region);
 
-function GenerationByType({
-  hydroData,
-  nuclearData,
-  solarData,
-  thermalData,
-  windData,
-}: EnergyCardProps) {
   const hydroNow = hydroData[hydroData.length - 1]?.geracao;
   const nuclearNow = nuclearData[nuclearData.length - 1]?.geracao;
   const solarNow = solarData[solarData.length - 1]?.geracao;
@@ -63,7 +52,7 @@ function GenerationByType({
         value={getTotalinThisMinute()}
       />
       <MetricCard
-        className="bg-blue-400"
+        className="bg-blue-400 transition-all duration-300 ease-in-out hover:scale-112 hover:bg-blue-500"
         icon={HydroIcon}
         title="Hydropower"
         metric="GW"
@@ -71,7 +60,7 @@ function GenerationByType({
         percentage={(hydroNow / getTotalinThisMinute()) * 100}
       />
       <MetricCard
-        className="bg-green-400"
+        className="bg-green-400 transition-all duration-300 ease-in-out hover:scale-112 hover:bg-green-500"
         title="Nuclear Power"
         icon={NuclearIcon}
         metric="GW"
@@ -79,7 +68,7 @@ function GenerationByType({
         percentage={(nuclearNow / getTotalinThisMinute()) * 100}
       />
       <MetricCard
-        className="bg-amber-300"
+        className="bg-amber-300 transition-all duration-300 ease-in-out hover:scale-112 hover:bg-amber-400"
         title="Solar Power"
         icon={SolarIcon}
         metric="GW"
@@ -87,7 +76,7 @@ function GenerationByType({
         percentage={(solarNow / getTotalinThisMinute()) * 100}
       />
       <MetricCard
-        className="bg-gray-400"
+        className="bg-gray-400 transition-all duration-300 ease-in-out hover:scale-112 hover:bg-gray-500"
         title="Thermal Power"
         icon={ThermalIcon}
         metric="GW"
@@ -95,7 +84,7 @@ function GenerationByType({
         percentage={(thermalNow / getTotalinThisMinute()) * 100}
       />
       <MetricCard
-        className="bg-blue-300"
+        className="bg-blue-300 transition-all duration-300 ease-in-out hover:scale-112 hover:bg-blue-400"
         title=" Wind Power"
         icon={WindIcon}
         metric="GW"
