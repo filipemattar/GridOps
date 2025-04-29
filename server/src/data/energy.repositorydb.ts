@@ -9,6 +9,7 @@ interface GenerationRecord {
 interface RegionDocument {
   source: string
   data: GenerationRecord[]
+  lastUpdate: Date
 }
 
 const regionCollection: Record<string, Collection<RegionDocument>> = {
@@ -19,27 +20,51 @@ const regionCollection: Record<string, Collection<RegionDocument>> = {
   cosu,
 }
 
+//TODO: need to rethink about this function
 const EnergyRepositoryMongoDB = {
   async saveEnergyDataInDB(
     region: string,
-    data: GenerationRecord[],
+    newData: GenerationRecord[],
     source: string
   ) {
     const collection = regionCollection[region]
 
-    const document: RegionDocument = {
-      source,
-      data,
-    }
-
     if (!collection) throw new Error(`Invalid region: ${region}`)
 
-    try {
-      await collection.insertOne(document)
-    } catch (error: any) {
-      if (error.code !== 11000) {
-        console.error('Error saving:', error)
-      }
+    await collection.createIndex({ 'data.instate': 1 }) //cria index unico
+    await collection.createIndex({ source: 1 }) //cria index unico
+
+    const existingDoc = await collection.findOne(
+      { source },
+      { sort: { lastUpdate: -1 } }
+    )
+
+    const existingInstantes = new Set(
+      existingDoc?.data.map((d) => d.instante) || []
+    )
+    const filteredData = newData.filter(
+      (record) => !existingInstantes.has(record.instante)
+    )
+
+    if (filteredData.length === 0) {
+      console.log('No new data to add')
+      return
+    }
+
+    if (existingDoc) {
+      await collection.updateOne(
+        { _id: existingDoc._id },
+        {
+          $push: { data: { $each: filteredData } },
+          $set: { lastUpdate: new Date() },
+        }
+      )
+    } else {
+      await collection.insertOne({
+        source,
+        data: filteredData,
+        lastUpdate: new Date(),
+      })
     }
   },
 
