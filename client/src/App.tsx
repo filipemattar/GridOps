@@ -12,7 +12,7 @@ function App() {
   return (
     <div className="@container/main flex flex-col">
       <div className="h-screen">
-        <h1 className="flex p-5 text-5xl font-semibold tabular-nums">
+        <h1 className="flex pb-15 pl-0 pt-10 pr-15 text-5xl font-semibold tabular-nums">
           Brazil Energy Watch
         </h1>
         <div className="flex">

@@ -73,7 +73,9 @@ export function LineChart({ region }: GenerationByRegionProps) {
           dataMap.set(item.instante, { instante: item.instante });
         }
         const dataPoint = dataMap.get(item.instante)!;
-        (dataPoint[sourceName] as number) = item.geracao ?? 0;
+        (dataPoint[sourceName] as number) = item.geracao
+          ? parseFloat((item.geracao / 1000).toFixed(2))
+          : 0;
       }
     }
 
@@ -122,7 +124,6 @@ export function LineChart({ region }: GenerationByRegionProps) {
   }
 
   const chartData = buildChartData();
-  console.log(chartData.length / 10);
 
   return (
     <div>
@@ -163,7 +164,6 @@ export function LineChart({ region }: GenerationByRegionProps) {
                 cursor={false}
                 content={<ChartTooltipContent />}
                 labelFormatter={formatDateXaxis}
-                // formatter={(value) => `${value / 1000} GW`}
               />
               <Area
                 dataKey="hydro"
