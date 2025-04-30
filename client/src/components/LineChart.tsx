@@ -157,13 +157,14 @@ export function LineChart({ region }: GenerationByRegionProps) {
                 tickLine={true}
                 axisLine={true}
                 tickMargin={8}
-                tickCount={5}
-                tickFormatter={(value) => (value / 1000).toString()}
+                tickCount={10}
+                tickFormatter={(value) => value.toString()}
               />
               <ChartTooltip
-                cursor={false}
+                cursor={true}
                 content={<ChartTooltipContent />}
                 labelFormatter={formatDateXaxis}
+                formatter={(value, name) => [`${name}: ${value} GW`]}
               />
               <Area
                 dataKey="hydro"

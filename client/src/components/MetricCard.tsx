@@ -16,8 +16,8 @@ export function MetricCard({
   metric,
   percentage,
   title,
-  subtitle,
-  subvalue,
+  // subtitle,
+  // subvalue,
   icon,
   className,
 }: MetricCardProps) {
@@ -47,7 +47,7 @@ export function MetricCard({
       ) : (
         ""
       )}
-      {/* TODO: work on the mains card of total GenerationByRegion */}
+      {/* TODO: work on the main card of total GenerationByRegion */}
       {/* {subtitle ? (
         <CardContent className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
           <span>{subtitle}</span>
