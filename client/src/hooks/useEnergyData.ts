@@ -6,7 +6,7 @@ interface EnergyPoint {
   geracao: number;
 }
 
-export function useEnergyData(region = "SIN") {
+export function useEnergyData(region = "sin") {
   const [hydroData, setHydroData] = useState<EnergyPoint[]>([]);
   const [nuclearData, setNuclearData] = useState<EnergyPoint[]>([]);
   const [solarData, setSolarData] = useState<EnergyPoint[]>([]);
@@ -17,52 +17,54 @@ export function useEnergyData(region = "SIN") {
     return str.split(" ").join("");
   }
 
-  async function fetchHydro() {
+  async function fetchHydro(source: string) {
     const response = await fetch(
-      `http://localhost:3000/energy/${removeSpaces(region)}/hydro`
+      `http://localhost:3000/energy/${removeSpaces(region)}/${source}`
     );
     const data = await response.json();
-    setHydroData(data);
+
+    setHydroData(data.data);
   }
 
-  async function fetchNuclear() {
+  async function fetchNuclear(source: string) {
     const response = await fetch(
-      `http://localhost:3000/energy/${removeSpaces(region)}/nuclear`
+      `http://localhost:3000/energy/${removeSpaces(region)}/${source}`
     );
     const data = await response.json();
-    setNuclearData(data);
+
+    setNuclearData(data === null ? [] : data.data);
   }
 
-  async function fetchSolar() {
+  async function fetchSolar(source: string) {
     const response = await fetch(
-      `http://localhost:3000/energy/${removeSpaces(region)}/solar`
+      `http://localhost:3000/energy/${removeSpaces(region)}/${source}`
     );
     const data = await response.json();
-    setSolarData(data);
+    setSolarData(data.data);
   }
 
-  async function fetchThermal() {
+  async function fetchThermal(source: string) {
     const response = await fetch(
-      `http://localhost:3000/energy/${removeSpaces(region)}/thermal`
+      `http://localhost:3000/energy/${removeSpaces(region)}/${source}`
     );
     const data = await response.json();
-    setThermalData(data);
+    setThermalData(data.data);
   }
 
-  async function fetchWind() {
+  async function fetchWind(source: string) {
     const response = await fetch(
-      `http://localhost:3000/energy/${removeSpaces(region)}/wind`
+      `http://localhost:3000/energy/${removeSpaces(region)}/${source}`
     );
     const data = await response.json();
-    setWindData(data);
+    setWindData(data.data);
   }
 
   useEffect(() => {
-    fetchHydro();
-    fetchNuclear();
-    fetchSolar();
-    fetchThermal();
-    fetchWind();
+    fetchHydro("hidraulica");
+    fetchNuclear("nuclear");
+    fetchSolar("solar");
+    fetchThermal("termica");
+    fetchWind("eolica");
   }, [region]);
 
   return {

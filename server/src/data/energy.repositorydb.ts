@@ -1,37 +1,39 @@
 import { Collection } from 'mongodb'
 import { cosu, nordeste, norte, sin, sul } from '../mongoDB'
 
-interface GenerationRecord {
-  instante: string
-  geracao: number
-}
-
-interface RegionDocument {
+interface SourceDocument {
   source: string
   data: GenerationRecord[]
   lastUpdate: Date
 }
 
-const regionCollection: Record<string, Collection<RegionDocument>> = {
-  sin,
-  norte,
-  nordeste,
-  sul,
-  cosu,
+interface GenerationRecord {
+  instante: string
+  geracao: number
+}
+
+type MyObjType = { [key: string]: Collection<SourceDocument> }
+
+const regionCollection: MyObjType = {
+  sin: sin,
+  Norte: norte,
+  Nordeste: nordeste,
+  Sul: sul,
+  'Centro-OesteeSudeste': cosu,
 }
 
 //TODO: need to rethink about this function
 const EnergyRepositoryMongoDB = {
   async saveEnergyDataInDB(
     region: string,
-    newData: GenerationRecord[],
-    source: string
+    source: string,
+    newData: GenerationRecord[]
   ) {
     const collection = regionCollection[region]
 
     if (!collection) throw new Error(`Invalid region: ${region}`)
 
-    await collection.createIndex({ 'data.instate': 1 }) //cria index unico
+    await collection.createIndex({ 'data.instante': 1 }) //cria index unico
     await collection.createIndex({ source: 1 }) //cria index unico
 
     const existingDoc = await collection.findOne(
@@ -42,6 +44,7 @@ const EnergyRepositoryMongoDB = {
     const existingInstantes = new Set(
       existingDoc?.data.map((d) => d.instante) || []
     )
+
     const filteredData = newData.filter(
       (record) => !existingInstantes.has(record.instante)
     )
@@ -68,11 +71,14 @@ const EnergyRepositoryMongoDB = {
     }
   },
 
-  async getEnergyData(region: string): Promise<any[]> {
+  async getEnergyData(
+    region: string,
+    source: string
+  ): Promise<SourceDocument | null> {
     const collection = regionCollection[region]
     if (!collection) throw new Error(`Invalid region: ${region}`)
 
-    return await collection.find({}).toArray()
+    return await collection.findOne({ source })
   },
 }
 

@@ -23,9 +23,9 @@ function App() {
           {selectedRegion && <GenerationByRegion region={selectedRegion} />}
         </div>
       </div>
-      <GenerationByType region={"SIN"} />
+      <GenerationByType region={"sin"} />
       <div className="p-5">
-        <LineChart region={"SIN"} />
+        <LineChart region={"sin"} />
       </div>
     </div>
   );

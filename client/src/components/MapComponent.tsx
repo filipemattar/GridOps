@@ -23,6 +23,7 @@ export default function MapChart({
           geographies.map((geo) => {
             const regionName = geo.properties?.region;
             const isSelected = regionName === selectedRegion;
+            console.log(regionName);
             return (
               <Geography
                 key={geo.rsmKey}

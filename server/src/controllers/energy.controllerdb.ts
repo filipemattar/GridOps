@@ -7,28 +7,26 @@ interface GenerationRecord {
   geracao: number
 }
 const EnergyControllerDB = {
-  async fetchAndStore(req: Request, res: Response) {
-    try {
-      const region = req.params.region
-      const source = req.params.source
+  async fetchAndStore() {
+    const regions = ['sin', 'Norte', 'Nordeste', 'Centro-OesteeSudeste', 'Sul']
+    const sources = ['hidraulica', 'nuclear', 'solar', 'termica', 'eolica']
 
-      const data: GenerationRecord[] = await EnergyAPI.getEnergyDataFromONS(
-        region,
-        source
-      )
-
-      await EnergyRepositoryMongoDB.saveEnergyDataInDB(region, data, source)
-
-      res.status(201).json({ message: 'Data saved successfully' })
-    } catch (error: any) {
-      res.status(500).json({ error: 'Error fetching and saving data' })
-    }
+    regions.forEach(async (region) => {
+      sources.forEach(async (source) => {
+        const data: GenerationRecord[] = await EnergyAPI.getEnergyDataFromONS(
+          region,
+          source
+        )
+        await EnergyRepositoryMongoDB.saveEnergyDataInDB(region, source, data)
+      })
+    })
   },
 
   async getDataFromDB(req: Request, res: Response) {
     try {
       const region = req.params.region
-      const data = await EnergyRepositoryMongoDB.getEnergyData(region)
+      const source = req.params.source
+      const data = await EnergyRepositoryMongoDB.getEnergyData(region, source)
 
       res.status(200).json(data)
     } catch (error: any) {

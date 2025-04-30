@@ -12,11 +12,10 @@ app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
 
-app.get('/energy/:region', EnergyControllerDB.getDataFromDB)
-//app.get('/energy/:region/:source', EnergyControllerDB.fetchAndStore)
+app.get('/energy/:region/:source', EnergyControllerDB.getDataFromDB)
 
 const port = process.env.PORT
-
+setInterval(EnergyControllerDB.fetchAndStore, 300000)
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`)
 })

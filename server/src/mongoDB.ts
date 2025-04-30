@@ -4,23 +4,23 @@ const uri = 'mongodb://localhost:27017/'
 
 const client = new MongoClient(uri)
 
+interface SourceDocument {
+  source: string
+  data: GenerationRecord[]
+  lastUpdate: Date
+}
+
 interface GenerationRecord {
   instante: string
   geracao: number
 }
-
-interface RegionDocument {
-  source: string
-  data: GenerationRecord[]
-}
-
 const database = client.db('brasilgenerationdb')
 
-const sin = database.collection<RegionDocument>('sin')
-const norte = database.collection<RegionDocument>('norte')
-const nordeste = database.collection<RegionDocument>('nordeste')
-const sul = database.collection<RegionDocument>('sul')
-const cosu = database.collection<RegionDocument>('cosu')
+const sin = database.collection<SourceDocument>('sin')
+const norte = database.collection<SourceDocument>('Norte')
+const nordeste = database.collection<SourceDocument>('Nordeste')
+const sul = database.collection<SourceDocument>('Sul')
+const cosu = database.collection<SourceDocument>('Centro-OesteeSudeste')
 
 export { sin, norte, nordeste, sul, cosu }
 export default client

@@ -20,7 +20,7 @@ function GenerationByRegion({ region }: GenerationByRegionProps) {
   const solarNow = solarData[solarData.length - 1]?.geracao || 0;
   const thermalNow = thermalData[thermalData.length - 1]?.geracao || 0;
   const windNow = windData[windData.length - 1]?.geracao || 0;
-  console.log(solarNow);
+
   const total = hydroNow + nuclearNow + solarNow + thermalNow + windNow;
 
   return (
