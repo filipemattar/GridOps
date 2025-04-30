@@ -15,7 +15,7 @@ export default function MapChart({
       height={600}
       projectionConfig={{
         scale: 600,
-        center: [-37, -21],
+        center: [-37, -22],
       }}
     >
       <Geographies geography={brazilRegions}>
@@ -23,7 +23,7 @@ export default function MapChart({
           geographies.map((geo) => {
             const regionName = geo.properties?.region;
             const isSelected = regionName === selectedRegion;
-            console.log(regionName);
+
             return (
               <Geography
                 key={geo.rsmKey}
@@ -33,15 +33,15 @@ export default function MapChart({
                 strokeWidth={0.5}
                 style={{
                   default: {
-                    fill: isSelected ? "#4a8500" : "#D6D6DA",
+                    fill: isSelected ? "#1DC75A" : "#D6D6DA",
                     outline: "none",
                   },
                   hover: {
-                    fill: "#4a8500",
+                    fill: "#1DC75A",
                     outline: "none",
                     cursor: "pointer",
                   },
-                  pressed: { fill: "#4a8500", outline: "none" },
+                  pressed: { fill: "#1DC75A", outline: "none" },
                 }}
               />
             );

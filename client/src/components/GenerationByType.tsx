@@ -52,7 +52,7 @@ function GenerationByType({ region }: GenerationByRegionProps) {
         value={getTotalinThisMinute()}
       />
       <MetricCard
-        className="bg-blue-400 transition-all duration-300 ease-in-out hover:scale-112 hover:bg-blue-500"
+        className="bg-sky-400 transition-all duration-300 ease-in-out hover:scale-112"
         icon={HydroIcon}
         title="Hydropower"
         metric="GW"
@@ -60,7 +60,7 @@ function GenerationByType({ region }: GenerationByRegionProps) {
         percentage={(hydroNow / getTotalinThisMinute()) * 100}
       />
       <MetricCard
-        className="bg-green-400 transition-all duration-300 ease-in-out hover:scale-112 hover:bg-green-500"
+        className="bg-monogogreen transition-all duration-300 ease-in-out hover:scale-112 "
         title="Nuclear Power"
         icon={NuclearIcon}
         metric="GW"
@@ -68,7 +68,7 @@ function GenerationByType({ region }: GenerationByRegionProps) {
         percentage={(nuclearNow / getTotalinThisMinute()) * 100}
       />
       <MetricCard
-        className="bg-amber-300 transition-all duration-300 ease-in-out hover:scale-112 hover:bg-amber-400"
+        className="bg-mongoorange transition-all duration-300 ease-in-out hover:scale-112 "
         title="Solar Power"
         icon={SolarIcon}
         metric="GW"
@@ -76,7 +76,7 @@ function GenerationByType({ region }: GenerationByRegionProps) {
         percentage={(solarNow / getTotalinThisMinute()) * 100}
       />
       <MetricCard
-        className="bg-gray-400 transition-all duration-300 ease-in-out hover:scale-112 hover:bg-gray-500"
+        className="bg-gray-400 transition-all duration-300 ease-in-out hover:scale-112"
         title="Thermal Power"
         icon={ThermalIcon}
         metric="GW"
@@ -84,7 +84,7 @@ function GenerationByType({ region }: GenerationByRegionProps) {
         percentage={(thermalNow / getTotalinThisMinute()) * 100}
       />
       <MetricCard
-        className="bg-blue-300 transition-all duration-300 ease-in-out hover:scale-112 hover:bg-blue-400"
+        className="bg-mongoblue transition-all duration-300 ease-in-out hover:scale-112"
         title=" Wind Power"
         icon={WindIcon}
         metric="GW"

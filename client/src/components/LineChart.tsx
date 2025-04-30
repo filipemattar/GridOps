@@ -33,19 +33,22 @@ interface ChartDataPoint {
   thermal?: number;
   wind?: number;
 }
+//azul antigo "rgba(59, 130, 246, 1)",
+//verde antigo "rgba(34, 197, 94, 1)",
+//ambar antigo "rgba(251, 191, 36, 1)",
 
 const chartConfig = {
   Hydropower: {
     label: "Hydropower",
-    color: "rgba(59, 130, 246, 1)",
+    color: "rgba(0, 188, 255, 1)",
   },
   NuclearPower: {
     label: "Nuclear Power",
-    color: "rgba(34, 197, 94, 1)",
+    color: "rgba(5, 235, 100, 1)",
   },
   SolarPower: {
     label: "Solar Power",
-    color: "rgba(251, 191, 36, 1)",
+    color: "rgba(254, 191, 15, 1)",
   },
   ThermalPower: {
     label: "Thermal Power",
@@ -53,7 +56,7 @@ const chartConfig = {
   },
   WindPower: {
     label: "Wind Power",
-    color: "rgba(100, 149, 255, 1)",
+    color: "rgba(0, 210, 255, 1)",
   },
 } satisfies ChartConfig;
 
@@ -157,7 +160,7 @@ export function LineChart({ region }: GenerationByRegionProps) {
                 tickLine={true}
                 axisLine={true}
                 tickMargin={8}
-                tickCount={10}
+                tickCount={5}
                 tickFormatter={(value) => value.toString()}
               />
               <ChartTooltip

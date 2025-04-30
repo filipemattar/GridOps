@@ -3,6 +3,18 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --color-mongoblue: #00d2ff;
+  --color-mongoyellow: #ffe213;
+  --color-monogogreen: #00ec64;
+  --color-mongoorange: #ffbf0f;
+}
+
+/* --color-mongoblue: var(--color-mongoblue);
+  --color-mongoyellow: var(--color-mongoyellow);
+  --color-monogogreen: var(--color-monogogreen);
+  --color-mongoorange: var(--color-mongoorange) */
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

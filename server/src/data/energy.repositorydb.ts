@@ -22,8 +22,8 @@ const regionCollection: MyObjType = {
   'Centro-OesteeSudeste': cosu,
 }
 
-//TODO: need to rethink about this function
 const EnergyRepositoryMongoDB = {
+  //TODO: check inside this function about timezones on the lastUpdate field
   async saveEnergyDataInDB(
     region: string,
     source: string,
@@ -33,8 +33,8 @@ const EnergyRepositoryMongoDB = {
 
     if (!collection) throw new Error(`Invalid region: ${region}`)
 
-    await collection.createIndex({ 'data.instante': 1 }) //cria index unico
-    await collection.createIndex({ source: 1 }) //cria index unico
+    await collection.createIndex({ 'data.instante': 1 })
+    await collection.createIndex({ source: 1 })
 
     const existingDoc = await collection.findOne(
       { source },

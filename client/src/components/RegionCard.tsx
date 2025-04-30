@@ -7,7 +7,7 @@ interface RegionEnergyCardProps extends React.ComponentProps<"div"> {
   percentage?: number;
   title: string;
   icon?: string;
-  region: string;
+  region?: string;
   bgColor?: string;
 }
 
@@ -20,7 +20,12 @@ export default function RegionCard({
   bgColor,
 }: RegionEnergyCardProps) {
   return (
-    <Card className={cn(bgColor, "w-[180px] h-[200px]")}>
+    <Card
+      className={cn(
+        bgColor,
+        "w-[180px] h-[200px] duration-300 ease-in-out hover:scale-112"
+      )}
+    >
       <CardHeader className="relative flex items-center space-x-2">
         {icon && (
           <img
