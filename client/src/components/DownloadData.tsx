@@ -9,15 +9,15 @@ export function DownloadButton() {
 
     const url = window.URL.createObjectURL(blob);
 
-    const a = document.createElement("a");
+    const element = document.createElement("a");
 
-    a.href = url;
+    element.href = url;
 
-    a.download = "brazil_energy_output.json";
+    element.download = "brazil_energy_output.json";
 
-    document.body.appendChild(a);
+    document.body.appendChild(element);
 
-    a.click();
+    element.click();
 
     window.URL.revokeObjectURL(url);
   }

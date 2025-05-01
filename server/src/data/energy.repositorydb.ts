@@ -77,7 +77,8 @@ const EnergyRepositoryMongoDB = {
     const collection = regionCollection[region]
     if (!collection) throw new Error(`Invalid region: ${region}`)
 
-    return await collection.findOne({ source })
+    const latestData = await collection.findOne({ source })
+    return latestData
   },
 
   async getDownloadData(region = 'sin') {
