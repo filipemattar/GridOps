@@ -23,7 +23,7 @@ export default function RegionCard({
     <Card
       className={cn(
         bgColor,
-        "w-[180px] h-[200px] duration-300 ease-in-out hover:scale-112"
+        "w-[180px] h-[204px] duration-300 ease-in-out hover:scale-112"
       )}
     >
       <CardHeader className="relative flex items-center space-x-2">

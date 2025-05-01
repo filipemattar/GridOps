@@ -40,7 +40,7 @@ interface ChartDataPoint {
 const chartConfig = {
   Hydropower: {
     label: "Hydropower",
-    color: "rgba(0, 188, 255, 1)",
+    color: "rgba(0, 210, 255, 1)",
   },
   NuclearPower: {
     label: "Nuclear Power",
@@ -52,11 +52,11 @@ const chartConfig = {
   },
   ThermalPower: {
     label: "Thermal Power",
-    color: "rgba(156, 163, 175, 1)",
+    color: "rgba(168, 162, 158, 1)",
   },
   WindPower: {
     label: "Wind Power",
-    color: "rgba(0, 210, 255, 1)",
+    color: "rgba(45, 212, 191, 1)",
   },
 } satisfies ChartConfig;
 
@@ -99,32 +99,32 @@ export function LineChart({ region }: GenerationByRegionProps) {
     return format(date, "HH:mm", { timeZone: "America/Sao_Paulo" });
   }
 
-  function formatMonth(instante: string): string {
-    const timeZone = "America/Sao_Paulo";
-    const date = toZonedTime(new Date(instante), timeZone);
+  // function formatMonth(instante: string): string {
+  //   const timeZone = "America/Sao_Paulo";
+  //   const date = toZonedTime(new Date(instante), timeZone);
 
-    const day = format(date, "d", { timeZone });
-    const month = format(date, "MMMM", { timeZone });
+  //   const day = format(date, "d", { timeZone });
+  //   const month = format(date, "MMMM", { timeZone });
 
-    const getDaySuffix = (day: number) => {
-      if (day >= 11 && day <= 13) return "th";
-      switch (day % 10) {
-        case 1:
-          return "st";
-        case 2:
-          return "nd";
-        case 3:
-          return "rd";
-        default:
-          return "th";
-      }
-    };
+  //   const getDaySuffix = (day: number) => {
+  //     if (day >= 11 && day <= 13) return "th";
+  //     switch (day % 10) {
+  //       case 1:
+  //         return "st";
+  //       case 2:
+  //         return "nd";
+  //       case 3:
+  //         return "rd";
+  //       default:
+  //         return "th";
+  //     }
+  //   };
 
-    const dayNumber = parseInt(day, 10);
-    const suffix = getDaySuffix(dayNumber);
+  //   const dayNumber = parseInt(day, 10);
+  //   const suffix = getDaySuffix(dayNumber);
 
-    return `${month} ${day}${suffix}`;
-  }
+  //   return `${month} ${day}${suffix}`;
+  // }
 
   const chartData = buildChartData();
 
@@ -154,7 +154,7 @@ export function LineChart({ region }: GenerationByRegionProps) {
                 axisLine={true}
                 tickMargin={8}
                 tickFormatter={formatDateXaxis}
-                interval={60}
+                interval={"equidistantPreserveStart"}
               />
               <YAxis
                 tickLine={true}
@@ -173,7 +173,7 @@ export function LineChart({ region }: GenerationByRegionProps) {
                 dataKey="hydro"
                 type="natural"
                 fill={chartConfig.Hydropower.color}
-                fillOpacity={0.8}
+                fillOpacity={0.9}
                 stroke="hsl(var(--chart-1))"
                 stackId="a"
               />
@@ -181,7 +181,7 @@ export function LineChart({ region }: GenerationByRegionProps) {
                 dataKey="nuclear"
                 type="natural"
                 fill={chartConfig.NuclearPower.color}
-                fillOpacity={0.8}
+                fillOpacity={0.9}
                 stroke="hsl(var(--chart-2))"
                 stackId="a"
               />
@@ -205,7 +205,7 @@ export function LineChart({ region }: GenerationByRegionProps) {
                 dataKey="wind"
                 type="natural"
                 fill={chartConfig.WindPower.color}
-                fillOpacity={0.6}
+                fillOpacity={0.9}
                 stroke="hsl(var(--chart-5))"
                 stackId="a"
               />
@@ -216,9 +216,11 @@ export function LineChart({ region }: GenerationByRegionProps) {
           <div className="flex w-full items-start gap-2 text-sm">
             <div className="grid gap-2">
               <div className="flex items-center text-1xl gap-2 leading-none text-muted-foreground">
-                {chartData[1]?.instante
-                  ? formatMonth(chartData[1].instante)
-                  : ""}
+                {`Last Update today at: ${
+                  chartData[chartData.length - 1]?.instante
+                    ? formatDateXaxis(chartData[chartData.length - 1].instante)
+                    : ""
+                }`}
               </div>
             </div>
           </div>

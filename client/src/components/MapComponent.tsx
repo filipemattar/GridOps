@@ -3,6 +3,7 @@ import brazilRegions from "@/assets/brazil_regions_merged.json";
 
 export default function MapChart({
   selectedRegion,
+
   onRegionClick,
 }: {
   selectedRegion?: string;
@@ -28,12 +29,14 @@ export default function MapChart({
               <Geography
                 key={geo.rsmKey}
                 geography={geo}
-                onClick={() => onRegionClick(regionName)}
+                onClick={() => {
+                  onRegionClick(regionName);
+                }}
                 stroke="#FFF"
                 strokeWidth={0.5}
                 style={{
                   default: {
-                    fill: isSelected ? "#1DC75A" : "#D6D6DA",
+                    fill: isSelected ? "#1DC75A" : "#A8A29E",
                     outline: "none",
                   },
                   hover: {

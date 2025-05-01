@@ -33,6 +33,16 @@ const EnergyControllerDB = {
       res.status(500).json({ error: 'Error retriving from DB' })
     }
   },
+
+  async getDatatoDownload(_: Request, res: Response) {
+    try {
+      const data = await EnergyRepositoryMongoDB.getDownloadData()
+      res.attachment('brazil_energy_output.json')
+      res.json(data)
+    } catch (error: any) {
+      res.status(500).json({ error: 'Error retriving from DB' })
+    }
+  },
 }
 
 export default EnergyControllerDB

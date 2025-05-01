@@ -32,7 +32,7 @@ function GenerationByRegion({ region }: GenerationByRegionProps) {
       </CardHeader>
       <CardContent className="grid grid-cols-3 gap-4">
         <RegionCard
-          bgColor="bg-sky-400"
+          bgColor="bg-mongoblue"
           title="Hydro"
           icon={HydroIcon}
           value={hydroNow}
@@ -54,14 +54,14 @@ function GenerationByRegion({ region }: GenerationByRegionProps) {
         />
         <div className="col-span-3 flex justify-center gap-4">
           <RegionCard
-            bgColor="bg-gray-400"
+            bgColor="bg-stone-400"
             title="Thermal"
             icon={ThermalIcon}
             value={thermalNow}
             percentage={(thermalNow / total) * 100}
           />
           <RegionCard
-            bgColor="bg-mongoblue"
+            bgColor="bg-teal-400"
             title="Wind"
             icon={WindIcon}
             value={windNow}

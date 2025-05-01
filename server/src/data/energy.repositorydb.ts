@@ -23,7 +23,6 @@ const regionCollection: MyObjType = {
 }
 
 const EnergyRepositoryMongoDB = {
-  //TODO: check inside this function about timezones on the lastUpdate field
   async saveEnergyDataInDB(
     region: string,
     source: string,
@@ -79,6 +78,12 @@ const EnergyRepositoryMongoDB = {
     if (!collection) throw new Error(`Invalid region: ${region}`)
 
     return await collection.findOne({ source })
+  },
+
+  async getDownloadData(region = 'sin') {
+    const collection = regionCollection[region]
+
+    return await collection.find({}).toArray()
   },
 }
 

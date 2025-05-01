@@ -4,6 +4,8 @@ import GenerationByType from "./components/GenerationByType";
 import { LineChart } from "./components/LineChart";
 import BrazilMap from "./components/MapComponent";
 import GenerationByRegion from "./components/GenerationByRegion";
+import { PlugZap } from "lucide-react";
+import { DownloadButton } from "./components/DownloadData";
 
 function App() {
   // This is ok here because it's part of my responsibility
@@ -12,19 +14,35 @@ function App() {
   return (
     <div className="@container/main flex flex-col">
       <div className="h-screen">
-        <h1 className="flex pb-15 pl-0 pt-10 pr-15 text-5xl font-semibold tabular-nums">
-          Brazil Energy Watch
-        </h1>
+        <div className="flex justify-between">
+          <div className="flex space-x-0.5">
+            <PlugZap style={{ color: "#78716C" }} size={43} strokeWidth={2} />
+            <h1 className="flex pb-15 pl-3 pt-0 pr-10 text-5xl text-stone-500 font-semibold tabular-nums">
+              GridOps
+            </h1>
+          </div>
+          <DownloadButton />
+        </div>
         <div className="flex">
           <BrazilMap
             selectedRegion={selectedRegion}
-            onRegionClick={setSelectedRegion}
+            onRegionClick={(region) => {
+              if (region === selectedRegion) {
+                setSelectedRegion(undefined);
+              } else {
+                setSelectedRegion(region);
+              }
+            }}
           />
-          {selectedRegion && <GenerationByRegion region={selectedRegion} />}
+          {selectedRegion ? (
+            <GenerationByRegion region={selectedRegion} />
+          ) : null}
         </div>
       </div>
-      <GenerationByType region={"sin"} />
-      <div className="p-5">
+      <div className="p-10">
+        <GenerationByType region={"sin"} />
+      </div>
+      <div className="p-20">
         <LineChart region={"sin"} />
       </div>
     </div>
