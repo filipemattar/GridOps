@@ -14,11 +14,11 @@ function GenerationByType({ region }: GenerationByRegionProps) {
   const { hydroData, nuclearData, solarData, thermalData, windData } =
     useEnergyData(region);
 
-  const hydroNow = hydroData[hydroData.length - 1]?.geracao;
-  const nuclearNow = nuclearData[nuclearData.length - 1]?.geracao;
-  const solarNow = solarData[solarData.length - 1]?.geracao;
-  const thermalNow = thermalData[thermalData.length - 1]?.geracao;
-  const windNow = windData[windData.length - 1]?.geracao;
+  const hydroNow = hydroData[0]?.geracao;
+  const nuclearNow = nuclearData[0]?.geracao;
+  const solarNow = solarData[0]?.geracao;
+  const thermalNow = thermalData[0]?.geracao;
+  const windNow = windData[0]?.geracao;
 
   function getTotalEnergyGeneration() {
     const hydro = hydroData.reduce((total, point) => total + point.geracao, 0);

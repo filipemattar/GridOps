@@ -28,12 +28,12 @@ export function DownloadButton() {
 
   return (
     <Button
-      className="h-[50px] w-[150px] text-stone-500 cursor-pointer border-2 hover:bg-[#1DC75A] hover:border-[#1DC75A] hover:text-stone-700 transition-all duration-150 ease-in-out hover:scale-105"
+      className="h-[50px] w-[200px] text-stone-500 cursor-pointer border-2 hover:bg-[#1DC75A] hover:border-[#1DC75A] hover:text-stone-700 transition-all duration-150 ease-in-out hover:scale-105"
       variant="outline"
       size="icon"
       onClick={handleDownloadClick}
     >
-      <Download className="h-[50px] w-[50px]" /> Download Data
+      <Download className="h-[50px] w-[50px]" /> Download National Data
     </Button>
   );
 }

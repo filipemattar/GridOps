@@ -90,7 +90,7 @@ export function LineChart({ region }: GenerationByRegionProps) {
 
     const chartData = Array.from(dataMap.values());
 
-    return chartData;
+    return chartData.reverse();
   }
 
   function formatDateXaxis(instante: string): string {
@@ -98,33 +98,6 @@ export function LineChart({ region }: GenerationByRegionProps) {
 
     return format(date, "HH:mm", { timeZone: "America/Sao_Paulo" });
   }
-
-  // function formatMonth(instante: string): string {
-  //   const timeZone = "America/Sao_Paulo";
-  //   const date = toZonedTime(new Date(instante), timeZone);
-
-  //   const day = format(date, "d", { timeZone });
-  //   const month = format(date, "MMMM", { timeZone });
-
-  //   const getDaySuffix = (day: number) => {
-  //     if (day >= 11 && day <= 13) return "th";
-  //     switch (day % 10) {
-  //       case 1:
-  //         return "st";
-  //       case 2:
-  //         return "nd";
-  //       case 3:
-  //         return "rd";
-  //       default:
-  //         return "th";
-  //     }
-  //   };
-
-  //   const dayNumber = parseInt(day, 10);
-  //   const suffix = getDaySuffix(dayNumber);
-
-  //   return `${month} ${day}${suffix}`;
-  // }
 
   const chartData = buildChartData();
 

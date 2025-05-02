@@ -32,13 +32,10 @@ const EnergyRepositoryMongoDB = {
 
     if (!collection) throw new Error(`Invalid region: ${region}`)
 
-    await collection.createIndex({ 'data.instante': 1 })
+    await collection.createIndex({ 'data.instante': -1 })
     await collection.createIndex({ source: 1 })
 
-    const existingDoc = await collection.findOne(
-      { source },
-      { sort: { lastUpdate: -1 } }
-    )
+    const existingDoc = await collection.findOne({ source })
 
     const existingInstantes = new Set(
       existingDoc?.data.map((d) => d.instante) || []
@@ -52,19 +49,21 @@ const EnergyRepositoryMongoDB = {
       console.log('No new data to add')
       return
     }
-
+    const sortedNewData = filteredData.sort(
+      (a, b) => new Date(b.instante).getTime() - new Date(a.instante).getTime()
+    )
     if (existingDoc) {
       await collection.updateOne(
         { _id: existingDoc._id },
         {
-          $push: { data: { $each: filteredData } },
+          $push: { data: { $each: sortedNewData, $position: 0 } },
           $set: { lastUpdate: new Date() },
         }
       )
     } else {
       await collection.insertOne({
         source,
-        data: filteredData,
+        data: sortedNewData,
         lastUpdate: new Date(),
       })
     }
@@ -72,13 +71,18 @@ const EnergyRepositoryMongoDB = {
 
   async getEnergyData(
     region: string,
-    source: string
+    source: string,
+    limit: number = 720
   ): Promise<SourceDocument | null> {
     const collection = regionCollection[region]
     if (!collection) throw new Error(`Invalid region: ${region}`)
 
-    const latestData = await collection.findOne({ source })
-    return latestData
+    const doc = await collection.findOne(
+      { source },
+      { projection: { data: { $slice: limit } } }
+    )
+
+    return doc
   },
 
   async getDownloadData(region = 'sin') {
