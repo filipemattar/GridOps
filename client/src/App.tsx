@@ -8,7 +8,6 @@ import { PlugZap } from "lucide-react";
 import { DownloadButton } from "./components/DownloadData";
 
 function App() {
-  // This is ok here because it's part of my responsibility
   const [selectedRegion, setSelectedRegion] = useState<string>();
 
   return (

@@ -146,7 +146,7 @@ export function LineChart({ region }: GenerationByRegionProps) {
                 dataKey="hydro"
                 type="natural"
                 fill={chartConfig.Hydropower.color}
-                fillOpacity={0.9}
+                fillOpacity={0.8}
                 stroke="hsl(var(--chart-1))"
                 stackId="a"
               />
@@ -154,7 +154,7 @@ export function LineChart({ region }: GenerationByRegionProps) {
                 dataKey="nuclear"
                 type="natural"
                 fill={chartConfig.NuclearPower.color}
-                fillOpacity={0.9}
+                fillOpacity={0.8}
                 stroke="hsl(var(--chart-2))"
                 stackId="a"
               />
@@ -162,7 +162,7 @@ export function LineChart({ region }: GenerationByRegionProps) {
                 dataKey="solar"
                 type="natural"
                 fill={chartConfig.SolarPower.color}
-                fillOpacity={0.9}
+                fillOpacity={0.8}
                 stroke="hsl(var(--chart-3))"
                 stackId="a"
               />
@@ -170,7 +170,7 @@ export function LineChart({ region }: GenerationByRegionProps) {
                 dataKey="thermal"
                 type="natural"
                 fill={chartConfig.ThermalPower.color}
-                fillOpacity={0.9}
+                fillOpacity={0.8}
                 stroke="hsl(var(--chart-4))"
                 stackId="a"
               />
@@ -178,7 +178,7 @@ export function LineChart({ region }: GenerationByRegionProps) {
                 dataKey="wind"
                 type="natural"
                 fill={chartConfig.WindPower.color}
-                fillOpacity={0.9}
+                fillOpacity={0.8}
                 stroke="hsl(var(--chart-5))"
                 stackId="a"
               />
