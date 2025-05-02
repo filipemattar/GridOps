@@ -72,7 +72,7 @@ export function useEnergyData(region = "sin") {
       fetchSolar("solar");
       fetchThermal("termica");
       fetchWind("eolica");
-    }, 300100);
+    }, 320000);
 
     return () => clearInterval(interval);
   }, [region]);
