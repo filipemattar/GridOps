@@ -72,7 +72,7 @@ const EnergyRepositoryMongoDB = {
   async getEnergyData(
     region: string,
     source: string,
-    limit: number = 720
+    limit: number = 1440
   ): Promise<SourceDocument | null> {
     const collection = regionCollection[region]
     if (!collection) throw new Error(`Invalid region: ${region}`)
