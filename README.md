@@ -1,4 +1,4 @@
-Solo project app for Software Engineering Bootcamp
+GridOps - Brazil
 
 The main goal of the app is to share real time information about Brazil's energy matrix and it's behaviour during the day. 
 
