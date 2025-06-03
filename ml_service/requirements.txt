@@ -1,0 +1,8 @@
+apache-airflow[celery,postgres,mongo]==2.9.1
+pandas
+pymongo
+joblib
+matplotlib
+fastapi
+uvicorn[standard]
+u8darts[torch]

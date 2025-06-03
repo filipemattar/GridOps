@@ -32,7 +32,7 @@ export function MetricCard({
         {icon && (
           <img
             src={icon}
-            className="w-[50px] h-[50px] object-cover rounded-md"
+            className="w-[40px] h-[40px] object-cover rounded-md"
           />
         )}
         <span>{title}</span>

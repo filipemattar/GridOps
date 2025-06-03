@@ -15,7 +15,7 @@ app.use(morgan('dev'))
 app.get('/energy/:region/:source', EnergyControllerDB.getDataFromDB)
 app.get('/download', EnergyControllerDB.getDatatoDownload)
 
-setInterval(EnergyControllerDB.fetchAndStore, 3000000)
+setInterval(EnergyControllerDB.fetchAndStore, 300000)
 
 const port = process.env.PORT
 

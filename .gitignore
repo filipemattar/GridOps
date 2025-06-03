@@ -23,3 +23,27 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Ambientes virtuais
+venv/
+.venv/
+.env/
+
+# Cache e builds Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Checkpoints Jupyter
+.ipynb_checkpoints/
+
+# Airflow
+logs/
+airflow.db
+*.log
+
+# VSCode
+.vscode/
+venv/bin/fastapi
