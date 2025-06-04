@@ -44,7 +44,7 @@ function GenerationByType({ region }: GenerationByRegionProps) {
   return (
     <div className="w-full *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-5 grid grid-cols-1 gap-1 px-4 data-[slot=card]:bg-gradient-to-t data-[slot=card]:from-primary/5 data-[slot=card]:to-card dark:data-[slot=card]:bg-card lg:px-6">
       <MetricCard
-        className="col-span-5 text-center text-1xl h-[100px] p-0 gap-3"
+        className="col-span-5 text-center text-1xl"
         title="Current Total Generation"
         metric="GW"
         subtitle="Daily"
@@ -52,7 +52,7 @@ function GenerationByType({ region }: GenerationByRegionProps) {
         value={getTotalinThisMinute()}
       />
       <MetricCard
-        className="bg-mongoblue transition-all duration-300 ease-in-out hover:scale-112 h-[200px]"
+        className="bg-mongoblue transition-all duration-300 ease-in-out hover:scale-112"
         icon={HydroIcon}
         title="Hydropower"
         metric="GW"
@@ -60,7 +60,7 @@ function GenerationByType({ region }: GenerationByRegionProps) {
         percentage={(hydroNow / getTotalinThisMinute()) * 100}
       />
       <MetricCard
-        className="bg-monogogreen transition-all duration-300 ease-in-out hover:scale-112 h-[200px]"
+        className="bg-monogogreen transition-all duration-300 ease-in-out hover:scale-112"
         title="Nuclear Power"
         icon={NuclearIcon}
         metric="GW"
@@ -68,7 +68,7 @@ function GenerationByType({ region }: GenerationByRegionProps) {
         percentage={(nuclearNow / getTotalinThisMinute()) * 100}
       />
       <MetricCard
-        className="bg-mongoorange transition-all duration-300 ease-in-out hover:scale-112 h-[200px]"
+        className="bg-mongoorange transition-all duration-300 ease-in-out hover:scale-112"
         title="Solar Power"
         icon={SolarIcon}
         metric="GW"
@@ -76,7 +76,7 @@ function GenerationByType({ region }: GenerationByRegionProps) {
         percentage={(solarNow / getTotalinThisMinute()) * 100}
       />
       <MetricCard
-        className="bg-stone-400 transition-all duration-300 ease-in-out hover:scale-112 h-[200px]"
+        className="bg-stone-400 transition-all duration-300 ease-in-out hover:scale-112"
         title="Thermal Power"
         icon={ThermalIcon}
         metric="GW"
@@ -84,7 +84,7 @@ function GenerationByType({ region }: GenerationByRegionProps) {
         percentage={(thermalNow / getTotalinThisMinute()) * 100}
       />
       <MetricCard
-        className="bg-teal-400 transition-all duration-300 ease-in-out hover:scale-112 h-[200px]"
+        className="bg-teal-400 transition-all duration-300 ease-in-out hover:scale-112"
         title=" Wind Power"
         icon={WindIcon}
         metric="GW"

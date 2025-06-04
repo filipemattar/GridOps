@@ -103,7 +103,7 @@ export function LineChart({ region }: GenerationByRegionProps) {
 
   return (
     <div>
-      <Card className="h-[500px]">
+      <Card>
         <CardHeader>
           <CardTitle>Energy Output By Minute</CardTitle>
           <CardDescription>
@@ -111,7 +111,7 @@ export function LineChart({ region }: GenerationByRegionProps) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={chartConfig} className="w-full h-[350px]">
+          <ChartContainer config={chartConfig}>
             <AreaChart
               accessibilityLayer
               data={chartData}

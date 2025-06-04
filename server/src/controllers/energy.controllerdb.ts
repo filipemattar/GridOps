@@ -1,11 +1,14 @@
 import EnergyRepositoryMongoDB from '../data/energy.repositorydb'
 import { Request, Response } from 'express'
 import EnergyAPI from '../utils/onsapi'
+import { TimeSeriesEnergyRecord } from '../mongoDB'
+import moment from 'moment-timezone'
 
-interface GenerationRecord {
+interface APIGenerationRecord {
   instante: string
   geracao: number
 }
+
 const EnergyControllerDB = {
   async fetchAndStore() {
     const regions = ['sin', 'Norte', 'Nordeste', 'Centro-OesteeSudeste', 'Sul']
@@ -13,10 +16,8 @@ const EnergyControllerDB = {
 
     regions.forEach(async (region) => {
       sources.forEach(async (source) => {
-        const data: GenerationRecord[] = await EnergyAPI.getEnergyDataFromONS(
-          region,
-          source
-        )
+        const data: APIGenerationRecord[] =
+          await EnergyAPI.getEnergyDataFromONS(region, source)
         await EnergyRepositoryMongoDB.saveEnergyDataInDB(region, source, data)
       })
     })
@@ -26,9 +27,15 @@ const EnergyControllerDB = {
     try {
       const region = req.params.region
       const source = req.params.source
-      const data = await EnergyRepositoryMongoDB.getEnergyData(region, source)
+      const data: TimeSeriesEnergyRecord[] =
+        await EnergyRepositoryMongoDB.getEnergyData(region, source)
 
-      res.status(200).json(data)
+      const formattedData = data.map((record) => ({
+        ...record,
+        instante: moment(record.instante).tz('America/Sao_Paulo').format(),
+      }))
+
+      res.status(200).json(formattedData)
     } catch (error: any) {
       res.status(500).json({ error: 'Error retriving from DB' })
     }

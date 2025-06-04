@@ -1,18 +1,19 @@
 import { Collection } from 'mongodb'
-import { cosu, nordeste, norte, sin, sul } from '../mongoDB'
+import {
+  cosu,
+  nordeste,
+  norte,
+  sin,
+  sul,
+  TimeSeriesEnergyRecord,
+} from '../mongoDB'
 
-interface SourceDocument {
-  source: string
-  data: GenerationRecord[]
-  lastUpdate: Date
-}
-
-interface GenerationRecord {
+interface APIGenerationRecord {
   instante: string
   geracao: number
 }
 
-type MyObjType = { [key: string]: Collection<SourceDocument> }
+type MyObjType = { [key: string]: Collection<TimeSeriesEnergyRecord> }
 
 const regionCollection: MyObjType = {
   sin: sin,
@@ -26,46 +27,44 @@ const EnergyRepositoryMongoDB = {
   async saveEnergyDataInDB(
     region: string,
     source: string,
-    newData: GenerationRecord[]
+    newData: APIGenerationRecord[]
   ) {
-    const collection = regionCollection[region]
+    const collection: Collection<TimeSeriesEnergyRecord> =
+      regionCollection[region]
 
     if (!collection) throw new Error(`Invalid region: ${region}`)
 
-    await collection.createIndex({ 'data.instante': -1 })
-    await collection.createIndex({ source: 1 })
-
-    const existingDoc = await collection.findOne({ source })
-
-    const existingInstantes = new Set(
-      existingDoc?.data.map((d) => d.instante) || []
+    const recordsToProcess: TimeSeriesEnergyRecord[] = newData.map(
+      (record) => ({
+        instante: new Date(record.instante),
+        geracao: record.geracao,
+        source: source,
+      })
     )
 
-    const filteredData = newData.filter(
-      (record) => !existingInstantes.has(record.instante)
+    const latestRecord = await collection.findOne(
+      { source: source },
+      { sort: { instante: -1 } }
+    )
+
+    const lastSavedInstante: Date | null = latestRecord?.instante || null
+
+    const filteredData = recordsToProcess.filter(
+      (record) => !lastSavedInstante || record.instante > lastSavedInstante
     )
 
     if (filteredData.length === 0) {
-      console.log('No new data to add')
+      console.log(`[${source} - ${region}] No new data to add.`)
       return
     }
-    const sortedNewData = filteredData.sort(
-      (a, b) => new Date(b.instante).getTime() - new Date(a.instante).getTime()
-    )
-    if (existingDoc) {
-      await collection.updateOne(
-        { _id: existingDoc._id },
-        {
-          $push: { data: { $each: sortedNewData, $position: 0 } },
-          $set: { lastUpdate: new Date() },
-        }
+
+    try {
+      await collection.insertMany(filteredData)
+    } catch (error: any) {
+      console.error(
+        `[${source} - ${region}] Error inserting time series data:`,
+        error.message
       )
-    } else {
-      await collection.insertOne({
-        source,
-        data: sortedNewData,
-        lastUpdate: new Date(),
-      })
     }
   },
 
@@ -73,20 +72,24 @@ const EnergyRepositoryMongoDB = {
     region: string,
     source: string,
     limit: number = 1440
-  ): Promise<SourceDocument | null> {
-    const collection = regionCollection[region]
+  ): Promise<TimeSeriesEnergyRecord[]> {
+    const collection: Collection<TimeSeriesEnergyRecord> =
+      regionCollection[region]
+
     if (!collection) throw new Error(`Invalid region: ${region}`)
 
-    const doc = await collection.findOne(
-      { source },
-      { projection: { data: { $slice: limit } } }
-    )
+    const docs = await collection
+      .find({ source: source })
+      .sort({ instante: -1 })
+      .limit(limit)
+      .toArray()
 
-    return doc
+    return docs
   },
 
-  async getDownloadData(region = 'sin') {
-    const collection = regionCollection[region]
+  async getDownloadData(region = 'sin'): Promise<TimeSeriesEnergyRecord[]> {
+    const collection: Collection<TimeSeriesEnergyRecord> =
+      regionCollection[region]
 
     return await collection.find({}).toArray()
   },

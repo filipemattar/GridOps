@@ -4,23 +4,19 @@ const uri = 'mongodb://localhost:27017/'
 
 const client = new MongoClient(uri)
 
-interface SourceDocument {
+interface TimeSeriesEnergyRecord {
+  instante: Date
+  geracao: number
   source: string
-  data: GenerationRecord[]
-  lastUpdate: Date
 }
 
-interface GenerationRecord {
-  instante: string
-  geracao: number
-}
 const database = client.db('brasilgenerationdb')
 
-const sin = database.collection<SourceDocument>('sin')
-const norte = database.collection<SourceDocument>('Norte')
-const nordeste = database.collection<SourceDocument>('Nordeste')
-const sul = database.collection<SourceDocument>('Sul')
-const cosu = database.collection<SourceDocument>('Centro-OesteeSudeste')
+const sin = database.collection<TimeSeriesEnergyRecord>('sin')
+const norte = database.collection<TimeSeriesEnergyRecord>('Norte')
+const nordeste = database.collection<TimeSeriesEnergyRecord>('Nordeste')
+const sul = database.collection<TimeSeriesEnergyRecord>('Sul')
+const cosu = database.collection<TimeSeriesEnergyRecord>('Centro-OesteeSudeste')
 
-export { sin, norte, nordeste, sul, cosu }
+export { sin, norte, nordeste, sul, cosu, TimeSeriesEnergyRecord }
 export default client
