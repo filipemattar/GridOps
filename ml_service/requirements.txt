@@ -1,4 +1,4 @@
-apache-airflow[celery,postgres,mongo]==2.9.1
+apache-airflow[celery,postgres,mongo]==2.10.3
 pandas
 pymongo
 joblib

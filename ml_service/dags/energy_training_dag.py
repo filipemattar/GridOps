@@ -16,7 +16,7 @@ with DAG(dag_id="energy_training_pipeline",
      
      train_model = BashOperator(
           task_id="train_model_task",
-          bash_command="python3 /Users/filipemattar/Developer/energia-forecasting/energy-forecasting/scripts/train_model.py"
+          bash_command="python3 /Users/filipemattar/Developer/solo-project/ml_service/scripts/train_model.py"
      )
 
      train_model
