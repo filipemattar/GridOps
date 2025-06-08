@@ -47,3 +47,5 @@ airflow.db
 # VSCode
 .vscode/
 venv/bin/fastapi
+
+ml_service/models/
