@@ -78,8 +78,8 @@ train_covariates, val_covariates = past_covariates_scaled.split_before(0.9)
 
 #the model details, nothing fancy
 model = NBEATSModel(
-    input_chunk_length=180,
-    output_chunk_length=60,
+    input_chunk_length=1440*7, #1 week of data as input to predict 1 day
+    output_chunk_length=1440,
     n_epochs=50,
     random_state=42
 )
