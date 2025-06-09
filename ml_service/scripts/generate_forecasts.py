@@ -6,6 +6,7 @@ from darts.models import NBEATSModel
 from darts import TimeSeries
 from darts.dataprocessing.transformers import Scaler, MissingValuesFiller
 import numpy as np
+import pytz
 
 print(f"[{datetime.now()}] Starting generate_forecasts.py script...")
 
@@ -98,3 +99,62 @@ def prepare_time_series(df_raw, expected_source_cols):
 
     return target_ts_filled, past_covariates_ts_filled
 
+if  __name__ == "__main__":
+    expected_source_cols = ["eolica", "hidraulica", "nuclear", "solar", "termica"]
+
+    df_historical = fetch_historical_data(historical_data_collection, INPUT_CHUNK_LENGTH)
+
+    if df_historical.empty:
+        print("Exiting: No raw historical data to start processing for forecasting.")
+        exit(0)
+    
+    #Do not know if I need this check. Expensive operation to pivot data, or should wait to check after timeseries formed?
+    temp_pivoted_df = df_historical.pivot(index='instante', columns='source', values='geracao')
+
+    if len(temp_pivoted_df) < INPUT_CHUNK_LENGTH:
+        print(f"Exiting: Pivoted historical data has insufficient unique timestamps ({len(temp_pivoted_df)} points) for prediction (needs at least {INPUT_CHUNK_LENGTH} unique timestamps).")
+        exit(0)
+
+    target_series_input, past_covariates_input = prepare_time_series(df_historical, expected_source_cols)
+
+    target_series_for_prediction = target_series_input.last_n(INPUT_CHUNK_LENGTH)
+    past_covariates_for_prediction = past_covariates_input.last_n(INPUT_CHUNK_LENGTH)
+
+    target_series_scaled = target_scaler.transform(target_series_for_prediction)
+    past_covariates_scaled = covariates_scaler.transform(past_covariates_for_prediction)
+
+    print(f"[{datetime.now()}] Generating {OUTPUT_CHUNK_LENGTH}-minute forecast...")
+
+    try:
+        predictions_scaled = model.predict(n=OUTPUT_CHUNK_LENGTH, 
+                                           series=target_series_scaled, 
+                                           past_covariates=past_covariates_scaled
+                                           )
+        predictions = target_scaler.inverse_transform(predictions_scaled)
+        print(f"[{datetime.now()}] Forecast generated successfully.")
+
+    except Exception as e:
+        print(f"ERROR: Prediction failed during scheduled run: {e}. Ensure the model received valid input.")
+        exit(1)
+        
+    forecast_docs = []
+    current_prediction_time = datetime.now(pytz.utc)
+
+    for i in range(len(predictions)):
+        forecast_doc = {
+            "instante": predictions.time_index[i].to_pydatetime(),
+            "predicted_total_geracao": float(predictions.values()[i][0]),
+            "prediction_time": current_prediction_time 
+        }
+        forecast_docs.append(forecast_doc)
+
+    if forecast_docs:
+        forecast_collection.insert_many(forecast_docs)
+        print(f"[{datetime.now()}] Successfully saved {len(forecast_docs)} forecasts to MongoDB.")
+    else:
+        print(f"[{datetime.now()}] No forecasts generated to save.")
+
+    print(f"[{datetime.now()}] Finished generate_forecasts.py script.")
+
+
+    
