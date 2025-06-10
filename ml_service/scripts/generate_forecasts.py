@@ -4,7 +4,7 @@ import pickle
 from datetime import datetime, timedelta
 from darts.models import NBEATSModel
 from darts import TimeSeries
-from darts.dataprocessing.transformers import Scaler, MissingValuesFiller
+from darts.dataprocessing.transformers import MissingValuesFiller
 import numpy as np
 import pytz
 
