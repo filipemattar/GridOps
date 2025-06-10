@@ -36,7 +36,7 @@ def get_forecast():
 
     last_forecast_instante_doc = forecast_collection.find(
         {"prediction_time": latest_prediction_time},
-        {"instante": 1} # Projeta apenas o campo 'instante'
+        {"instante": 1}
     ).sort("instante", pymongo.DESCENDING).limit(1).next()
 
     if not last_forecast_instante_doc:
