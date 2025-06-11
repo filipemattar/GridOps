@@ -15,6 +15,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useEnergyData } from "@/hooks/useEnergyData";
+import { useCallback, useMemo } from "react";
 
 interface GenerationByRegionProps {
   region: string;
@@ -33,9 +34,6 @@ interface ChartDataPoint {
   thermal?: number;
   wind?: number;
 }
-//azul antigo "rgba(59, 130, 246, 1)",
-//verde antigo "rgba(34, 197, 94, 1)",
-//ambar antigo "rgba(251, 191, 36, 1)",
 
 const chartConfig = {
   Hydropower: {
@@ -64,7 +62,7 @@ export function LineChart({ region }: GenerationByRegionProps) {
   const { hydroData, nuclearData, solarData, thermalData, windData } =
     useEnergyData(region);
 
-  function buildChartData() {
+  const chartData = useMemo(() => {
     const dataMap = new Map<string, ChartDataPoint>();
 
     function addData(
@@ -91,15 +89,13 @@ export function LineChart({ region }: GenerationByRegionProps) {
     const chartData = Array.from(dataMap.values());
 
     return chartData.reverse();
-  }
+  }, [hydroData, nuclearData, solarData, thermalData, windData]);
 
-  function formatDateXaxis(instante: string): string {
+  const formatDateXaxis = useCallback((instante: string): string => {
     const date = toZonedTime(new Date(instante), "America/Sao_Paulo");
 
     return format(date, "HH:mm", { timeZone: "America/Sao_Paulo" });
-  }
-
-  const chartData = buildChartData();
+  }, []);
 
   return (
     <div>
