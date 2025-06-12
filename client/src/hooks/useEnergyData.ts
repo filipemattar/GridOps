@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 // TODO: centralize this type in the api client where the fetch functions will live
 interface EnergyPoint {
   instante: string;
   source: string;
   geracao: number;
+}
+function removeSpaces(str: string) {
+  return str.split(" ").join("");
 }
 
 export function useEnergyData(region = "sin") {
@@ -14,52 +17,62 @@ export function useEnergyData(region = "sin") {
   const [thermalData, setThermalData] = useState<EnergyPoint[]>([]);
   const [windData, setWindData] = useState<EnergyPoint[]>([]);
 
-  function removeSpaces(str: string) {
-    return str.split(" ").join("");
-  }
+  const fetchHydro = useCallback(
+    async (source: string) => {
+      const response = await fetch(
+        `http://localhost:3000/energy/${removeSpaces(region)}/${source}`
+      );
+      const data = await response.json();
+      setHydroData(data);
+    },
+    [region]
+  );
 
-  async function fetchHydro(source: string) {
-    const response = await fetch(
-      `http://localhost:3000/energy/${removeSpaces(region)}/${source}`
-    );
-    const data = await response.json();
+  const fetchNuclear = useCallback(
+    async (source: string) => {
+      const response = await fetch(
+        `http://localhost:3000/energy/${removeSpaces(region)}/${source}`
+      );
+      const data = await response.json();
 
-    setHydroData(data);
-  }
+      setNuclearData(data === null ? [] : data);
+    },
+    [region]
+  );
 
-  async function fetchNuclear(source: string) {
-    const response = await fetch(
-      `http://localhost:3000/energy/${removeSpaces(region)}/${source}`
-    );
-    const data = await response.json();
+  const fetchSolar = useCallback(
+    async (source: string) => {
+      const response = await fetch(
+        `http://localhost:3000/energy/${removeSpaces(region)}/${source}`
+      );
+      const data = await response.json();
 
-    setNuclearData(data === null ? [] : data);
-  }
+      setSolarData(data);
+    },
+    [region]
+  );
 
-  async function fetchSolar(source: string) {
-    const response = await fetch(
-      `http://localhost:3000/energy/${removeSpaces(region)}/${source}`
-    );
-    const data = await response.json();
+  const fetchThermal = useCallback(
+    async (source: string) => {
+      const response = await fetch(
+        `http://localhost:3000/energy/${removeSpaces(region)}/${source}`
+      );
+      const data = await response.json();
+      setThermalData(data);
+    },
+    [region]
+  );
 
-    setSolarData(data);
-  }
-
-  async function fetchThermal(source: string) {
-    const response = await fetch(
-      `http://localhost:3000/energy/${removeSpaces(region)}/${source}`
-    );
-    const data = await response.json();
-    setThermalData(data);
-  }
-
-  async function fetchWind(source: string) {
-    const response = await fetch(
-      `http://localhost:3000/energy/${removeSpaces(region)}/${source}`
-    );
-    const data = await response.json();
-    setWindData(data);
-  }
+  const fetchWind = useCallback(
+    async (source: string) => {
+      const response = await fetch(
+        `http://localhost:3000/energy/${removeSpaces(region)}/${source}`
+      );
+      const data = await response.json();
+      setWindData(data);
+    },
+    [region]
+  );
 
   useEffect(() => {
     fetchHydro("hidraulica");
@@ -77,7 +90,7 @@ export function useEnergyData(region = "sin") {
     }, 320000);
 
     return () => clearInterval(interval);
-  }, [region]);
+  }, [fetchHydro, fetchNuclear, fetchSolar, fetchThermal, fetchWind]);
 
   return {
     hydroData,
